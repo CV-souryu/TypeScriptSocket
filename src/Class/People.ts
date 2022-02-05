@@ -1,28 +1,21 @@
-// import { AddressInfo, Socket } from "net";
+import { Socket } from "net";
+import { send } from "../Common/send";
+export type PeopleInfo = {
+    nickName: string,
+    x: number,
+    y: number,
+    direction: string,
+    personAppearance: number,
+}
 
-// export class People{
-//     ID:Symbol;
-//     head:People;
-//     prev:People;
-//     next:People;
-//     address:AddressInfo
-//     socket:Socket
-//     constructor(){
+export class People {   
+    constructor(public ID: symbol, public socket: Socket,public info:PeopleInfo) {
 
-//     }
-//     send(data:string){
-//         this.socket.write(data)
-//         if(this.next){
-//             this.next.send(data)
-//         }
-//     }
-//     leave(address:AddressInfo){
-//         if(address===this.address){
-//             if(this.prev){
-//                 this.prev.next = this.next
-//             }else{
-
-//             }
-//         }
-//     }
-// }
+    }
+    send(data: string) {
+        send(this.socket, data)
+    }
+    move(){
+        
+    }
+}

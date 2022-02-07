@@ -1,18 +1,11 @@
-import { UserJoin, UserJoinInit } from "./module/join"
+/*
+ * @Date: 2022-02-06 09:15:00
+ * @LastEditors: YueAo7
+ * @LastEditTime: 2022-02-06 09:47:28
+ * @FilePath: \TypeScriptSocket\src\Schema\index.ts
+ */
+import { MainMSG } from "./module/msg"
+
 export namespace Schema{
-    export namespace UserMSG{
-        export namespace Join{
-            export type Type = UserJoin
-        }
-    }
-    export namespace ServerMSG{
-        export namespace JoinInit{
-            export type Type = UserJoinInit
-        }
-        export namespace Join{
-            export type Type = UserJoin
-        }
-        export namespace Move{}
-    }
+    export const MSG = MainMSG
 }
-export default Schema

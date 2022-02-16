@@ -1,11 +1,12 @@
 /*
  * @Date: 2022-02-06 09:15:00
  * @LastEditors: YueAo7
- * @LastEditTime: 2022-02-11 16:47:02
+ * @LastEditTime: 2022-02-14 17:28:26
  * @FilePath: \SocketV2\src\Class\Room.ts
  */
 import { People } from "./People";
 import { ClientMSG, msgType, ServerMSG } from "./Msg";
+import { logger } from "../Init";
 type ClientMap = Map<symbol, People>
 type PrivateRTCRoom = Map<symbol, ClientMap>;
 class Room {
@@ -15,10 +16,13 @@ class Room {
 
     }
     send(data: ServerMSG.validate) {
+        const member:number[] = []
         const text = JSON.stringify(data)
         this.ClientMap.forEach((p) => {
             p.send(text)
+            member.push(p.ID)
         })
+        logger.info("Msg",member,text)
     }
     join(people: People, data: ServerMSG.JoinMSG) {
         this.send(data)
@@ -57,8 +61,7 @@ class Room {
         people.unLink()
         let PrivateRTC = this.PrivateRTC.get(key)
         if (PrivateRTC) {
-            console.log("长度"+PrivateRTC.size);
-            
+            console.log("长度" + PrivateRTC.size);
             if (PrivateRTC.size) {
                 for (const iterator of PrivateRTC.values()) {
                     people.link(iterator)
@@ -70,6 +73,7 @@ class Room {
         } else {
             PrivateRTC = new Map()
             people.RTCMapInit(PrivateRTC)
+        this.PrivateRTC.set(key, PrivateRTC)
         }
 
 
@@ -97,6 +101,7 @@ export class RoomControl {
     join(roomID: symbol, people: People, data: ClientMSG.JoinMSG) {
         const { nickname, direction, x, y, personAppearance, strUserID } = data
         people.info = { nickname, direction, x, y, personAppearance, strUserID }
+        people.roomID = roomID
         const roomMap = this.roomMap
         const room = roomMap.get(roomID)
         const MSG: ServerMSG.JoinMSG = {
@@ -121,52 +126,71 @@ export class RoomControl {
     }
     leave(people: People) {
         const roomMap = this.roomMap
-        const room = roomMap.get(people.roomID)
-        if (room) {
-            room.leave(people)
-            people.unLink()
+        if (people.roomID) {
+            const room = roomMap.get(people.roomID)
+            if (room) {
+                room.leave(people)
+                people.unLink()
+            }
         }
+
     }
     link(people: People, peopleKey: symbol) {
         const roomMap = this.roomMap
-        const room = roomMap.get(people.roomID)
-        if (room) {
-            room.link(people, peopleKey)
+        if (people.roomID) {
+            const room = roomMap.get(people.roomID)
+            if (room) {
+                room.link(people, peopleKey)
+            }
         }
     }
     linkPrviate(people: People, PrivateID: string) {
         const roomMap = this.roomMap
-        const room = roomMap.get(people.roomID)
-        if (room) {
-            room.linkPrivate(people, PrivateID)
+        if (people.roomID) {
+            const room = roomMap.get(people.roomID)
+            if (room) {
+                room.linkPrivate(people, PrivateID)
+            }
         }
     }
     emit(MSG: ClientMSG.validate, people: People) {
         switch (MSG.msgType) {
             case msgType.UserJoin:
-                //console.log("JOIN");
+                logger.info("JOIN", people.ID)
+                Symbol.for("1684")
 
-                this.join(people.roomID, people, MSG)
+                this.join(Symbol.for("1684"), people, MSG)
                 break;
             case msgType.UserLeave:
+                logger.info("LEAVE", people.ID)
+
                 //console.log("LEAVE");
                 this.leave(people)
                 break;
             case msgType.UserMove:
-                //console.log("MOVE");                  
-                this.send(people.roomID, people.move(MSG))
+                //console.log("MOVE");     
+                logger.info("MOVE", people.ID)
+                if (people.roomID) {
+                    
+                    this.send(people.roomID, people.move(MSG))
+
+                }
                 break;
             case msgType.UserLink:
+                logger.info("LINK", people.ID)
+
                 //console.log("LINK");      
-                this.link(people, Symbol.for(MSG.ID))
+                this.link(people, Symbol.for("" + MSG.ID))
                 break;
             case msgType.UserUnLink:
+                logger.info("UNLINK", people.ID)
+
                 //console.log("UNLINK");
                 people.unLink()
                 break;
             case msgType.UserLinkPrivate:
-                console.log("LINKPRVIATE");
-                this.linkPrviate(people,MSG.key)
+                logger.info("LINKPRVIATE", people.ID)
+                this.linkPrviate(people, MSG.key)
                 break;
             default:
                 break;

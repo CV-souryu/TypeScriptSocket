@@ -1,7 +1,7 @@
 /*
  * @Date: 2022-02-09 10:59:53
  * @LastEditors: YueAo7
- * @LastEditTime: 2022-02-11 16:09:48
+ * @LastEditTime: 2022-02-13 09:33:08
  * @FilePath: \SocketV2\src\Class\MSG.ts
  */
 import { Static, Type } from '@sinclair/typebox'
@@ -19,7 +19,7 @@ export enum msgType {
 
 export namespace User {
     export const UserID = Type.Object({
-        ID: Type.String()
+        ID: Type.Number()
     })
     export type UserID = Static<typeof UserID>
 
@@ -155,7 +155,7 @@ export namespace ServerMSG {
     export const LinkRTCMSG = Type.Intersect([
         Type.Object({
             msgType:Type.Literal(msgType.UserLink),
-            members:Type.Array(Type.String())
+            members:Type.Array(Type.Number())
         }),       
     ])
     export type LinkRTCMSG = Static<typeof LinkRTCMSG>
@@ -163,7 +163,7 @@ export namespace ServerMSG {
     export const UnLinkRTCMSG = Type.Intersect([
         Type.Object({
             msgType:Type.Literal(msgType.UserUnLink),
-            ID:Type.String()
+            ID:Type.Number()
         })
     ])
     export type UnLinkRTCMSG = Static<typeof UnLinkRTCMSG>
@@ -206,7 +206,7 @@ const UserLeaveMSG: ClientMSG.LeaveMSG = {
 /**开始连麦 */
 const UserLinkMSG: ClientMSG.LinkRTCMSG = {
     msgType: 0x1003,
-    ID: "K5E6WQ1EQ5W6E6QE51354A68G48H",
+    ID: 65530,
 }
 /**结束连麦 */
 const UserUnLinkMSG: ClientMSG.UnLinkRTCMSG = {
@@ -223,12 +223,12 @@ const UserLinkPrivateMSG: ClientMSG.LinkRTCPrivate = {
 /**连接成功 */
 const ServerConnectInit: ServerMSG.ConnectInit = {
     msgType: 0x0000,
-    ID: "K5E6WQ1EQ5W6E6QE51354A68G48H"
+    ID: 65530
 }
 
 /**有人进房 */
 const ServerJoinMSG: ServerMSG.JoinMSG = {
-    ID: "K5E6WQ1EQ5W6E6QE51354A68G48H",
+    ID: 65530,
     //以下与UserJoinMsg相同
     nickname: "YAQ",
     direction: 0,
@@ -242,12 +242,12 @@ const ServerJoinMSG: ServerMSG.JoinMSG = {
 /**有人离开 */
 const ServerLeaveMSG: ServerMSG.LeaveMSG = {
     msgType:0x1002,
-    ID: "K5E6WQ1EQ5W6E6QE51354A68G48H"
+    ID: 65530
 }
 
 /**有人移动 */
 const ServerMoveMSG: ServerMSG.MoveMSG = {
-    ID: "K5E6WQ1EQ5W6E6QE51354A68G48H",
+    ID: 65530,
     //以下与UserMoveMsg相同
     direction: 0,
     msgType: 0x1001,
@@ -270,14 +270,12 @@ const ServerRoomInitMSG: ServerMSG.RoomInitMSG = {
 const ServerLinkUserMSG: ServerMSG.LinkRTCMSG = {
     msgType: 0x1003,
     members: [
-        "K5E6WQ1EQ5W6E6QE51354A68G48H",
-        "K5E6WQ1EQ5W6E6QE51354A68G48H",
-        "K5E6WQ1EQ5W6E6QE51354A68G48H"
+        65530,65532
     ]
 }
 const ServerUnLinkUserMSG: ServerMSG.UnLinkRTCMSG = {
     msgType: 0x1004,
-    ID: "K5E6WQ1EQ5W6E6QE51354A68G48H"
+    ID: 65530
 }
 
 

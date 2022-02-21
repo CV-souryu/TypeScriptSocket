@@ -17,13 +17,15 @@
     "url": "https://github.com/CV-souryu/TypeScriptTemplate.git"
   },
   "scripts": {
-    "serve": "tsc && node dist",
-    "tsc": "tsc"
+    "serve": "tsc && node --prof dist",
+    "tsc": "tsc",
+    "fire":"node --prof-process --preprocess -j isolate*.log > flamebearer.json"
   },
   "author": "yueao7",
   "license": "Apache-2.0",
   "devDependencies": {
     "@types/md5": "^2.3.2",
+    "@types/mutexify": "^1.2.0",
     "@types/node": "^17.0.13",
     "protoc-gen-ts": "^0.8.2",
     "ts-loader": "^9.2.6",
@@ -40,6 +42,7 @@
     "ajv-formats": "^2.1.1",
     "log4js": "^6.4.1",
     "md5": "^2.3.0",
+    "mutexify": "^1.4.0",
     "protobufjs": "^6.11.2"
   }
 }

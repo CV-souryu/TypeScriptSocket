@@ -1,13 +1,15 @@
 /*
  * @Date: 2022-02-06 09:15:00
  * @LastEditors: YueAo7
- * @LastEditTime: 2022-02-14 17:28:26
+ * @LastEditTime: 2022-02-21 11:04:58
  * @FilePath: \SocketV2\src\Class\Room.ts
  */
-import { People } from "./People";
-import { ClientMSG, msgType, ServerMSG } from "./Msg";
+import { ClientControl } from "./ClientControl";
+//import { ClientMSG, msgType, ServerMSG } from "./Msg";
 import { logger } from "../Init";
-type ClientMap = Map<symbol, People>
+import { SocketClientMsg, SocketEnum, SocketServerMsg } from "../Proto";
+import { encodeMSG } from "../Common/encode";
+type ClientMap = Map<symbol, ClientControl>
 type PrivateRTCRoom = Map<symbol, ClientMap>;
 class Room {
     private ClientMap: ClientMap = new Map()
@@ -15,48 +17,54 @@ class Room {
     constructor() {
 
     }
-    send(data: ServerMSG.validate) {
-        const member:number[] = []
-        const text = JSON.stringify(data)
+    send(data: Uint8Array) {
+        const member: number[] = []
         this.ClientMap.forEach((p) => {
-            p.send(text)
-            member.push(p.ID)
+            p.send(data)
+            member.push(p.Id)
         })
-        logger.info("Msg",member,text)
+        //logger.info("Msg", member, data)
     }
-    join(people: People, data: ServerMSG.JoinMSG) {
-        this.send(data)
+    join(people: ClientControl, data: SocketServerMsg.Join) {
+
+        let res: Uint8Array = encodeMSG(SocketEnum.msgType.UserJoin, SocketServerMsg.Join.encode(data).finish())
+
+        this.send(res)
         if (!this.ClientMap.has(people.Key)) {
             this.ClientMap.set(people.Key, people)
-            const initMSG: ServerMSG.RoomInitMSG = {
-                msgType: msgType.ClientRoomInit,
+            const Roominit: SocketServerMsg.RoomInit = SocketServerMsg.RoomInit.create({
                 members: []
-            }
-            this.ClientMap.forEach((p) => {
-                initMSG.members.push({ ...p.info, ID: p.ID })
             })
-            people.send(JSON.stringify(initMSG))
+
+            this.ClientMap.forEach((p) => {
+                Roominit.members.push({ ...p.info, Id: p.Id })
+            })
+            const initMSG: Uint8Array = encodeMSG(SocketEnum.msgType.ClientRoomInit, SocketServerMsg.RoomInit.encode(Roominit).finish())
+            people.send(initMSG)
         }
     }
-    leave(people: People) {
-        const data: ServerMSG.LeaveMSG = {
-            msgType: msgType.UserLeave,
-            ID: people.ID
-        }
-        // console.log(data);
+    leave(people: ClientControl) {
+
+        const data: Uint8Array = encodeMSG(SocketEnum.msgType.UserLeave,SocketServerMsg.Leave.encode(
+                SocketServerMsg.Leave.create({
+                    Id: people.Id
+                })
+            ).finish()
+        )
+        //console.log(people.Id, data);
 
         this.send(data)
         this.ClientMap.delete(people.Key)
 
     }
-    link(people: People, peopleKey: symbol) {
+    link(people: ClientControl, peopleKey: symbol) {
         let other = this.ClientMap.get(peopleKey);
         if (people.Key != peopleKey && other) {
             people.link(other)
         }
     }
 
-    linkPrivate(people: People, PrivateID: string) {
+    linkPrivate(people: ClientControl, PrivateID: string) {
         const key = Symbol.for(PrivateID)
         people.unLink()
         let PrivateRTC = this.PrivateRTC.get(key)
@@ -73,12 +81,12 @@ class Room {
         } else {
             PrivateRTC = new Map()
             people.RTCMapInit(PrivateRTC)
-        this.PrivateRTC.set(key, PrivateRTC)
+            this.PrivateRTC.set(key, PrivateRTC)
         }
 
 
     }
-    has(people: People) {
+    has(people: ClientControl) {
         return this.ClientMap.has(people.Key)
     }
 }
@@ -90,7 +98,7 @@ export class RoomControl {
     constructor() {
 
     }
-    has(roomID: symbol, people: People) {
+    has(roomID: symbol, people: ClientControl) {
         const roomMap = this.roomMap
         const room = roomMap.get(roomID)
         if (room) {
@@ -98,17 +106,24 @@ export class RoomControl {
         }
         return false
     }
-    join(roomID: symbol, people: People, data: ClientMSG.JoinMSG) {
-        const { nickname, direction, x, y, personAppearance, strUserID } = data
-        people.info = { nickname, direction, x, y, personAppearance, strUserID }
+    join(roomID: symbol, people: ClientControl, data: SocketClientMsg.Join) {
+        const { nickname, direction, x, y, personAppearance, strUserId } = data
+        people.info = { nickname, direction, x, y, personAppearance, strUserId }
         people.roomID = roomID
         const roomMap = this.roomMap
         const room = roomMap.get(roomID)
-        const MSG: ServerMSG.JoinMSG = {
-            msgType: msgType.UserJoin,
-            ...people.info,
-            ID: people.ID
-        }
+        const MSG: SocketServerMsg.Join = SocketServerMsg.Join.create({
+            member: {
+                Id: people.Id,
+                nickname,
+                direction,
+                personAppearance,
+                x,
+                y,
+                strUserId,
+            }
+
+        })
         if (room) {
             room.join(people, MSG)
         } else {
@@ -117,25 +132,26 @@ export class RoomControl {
             room.join(people, MSG)
         }
     }
-    send(roomID: symbol, data: ServerMSG.validate) {
+    send(roomID: symbol, data: Uint8Array) {
         const roomMap = this.roomMap
         const room = roomMap.get(roomID)
         if (room) {
             room.send(data)
         }
     }
-    leave(people: People) {
+    leave(people: ClientControl) {
         const roomMap = this.roomMap
         if (people.roomID) {
             const room = roomMap.get(people.roomID)
             if (room) {
-                room.leave(people)
                 people.unLink()
+                room.leave(people)
+
             }
         }
 
     }
-    link(people: People, peopleKey: symbol) {
+    link(people: ClientControl, peopleKey: symbol) {
         const roomMap = this.roomMap
         if (people.roomID) {
             const room = roomMap.get(people.roomID)
@@ -144,7 +160,7 @@ export class RoomControl {
             }
         }
     }
-    linkPrviate(people: People, PrivateID: string) {
+    linkPrviate(people: ClientControl, PrivateID: string) {
         const roomMap = this.roomMap
         if (people.roomID) {
             const room = roomMap.get(people.roomID)
@@ -153,44 +169,54 @@ export class RoomControl {
             }
         }
     }
-    emit(MSG: ClientMSG.validate, people: People) {
-        switch (MSG.msgType) {
-            case msgType.UserJoin:
-                logger.info("JOIN", people.ID)
-                Symbol.for("1684")
+    emit(MSG: SocketClientMsg.Msg, people: ClientControl) {
+        //console.log(MSG)
 
-                this.join(Symbol.for("1684"), people, MSG)
+        switch (MSG.type) {
+            case SocketEnum.msgType.UserJoin:
+                // logger.info("JOIN", people.Id)
+                const Join = SocketClientMsg.Join.decode(MSG.data)
+                if (Join instanceof SocketClientMsg.Join) {
+                    this.join(Symbol.for("1684"), people, Join)
+                }
                 break;
-            case msgType.UserLeave:
-                logger.info("LEAVE", people.ID)
-
-                //console.log("LEAVE");
+            case SocketEnum.msgType.UserLeave:
+                // logger.info("LEAVE", people.Id)
                 this.leave(people)
                 break;
-            case msgType.UserMove:
+            case SocketEnum.msgType.UserMove:
                 //console.log("MOVE");     
-                logger.info("MOVE", people.ID)
-                if (people.roomID) {
-                    
-                    this.send(people.roomID, people.move(MSG))
+                // logger.info("MOVE", people.Id)
+                const Move = SocketClientMsg.Move.decode(MSG.data)
+
+                if (people.roomID && Move instanceof SocketClientMsg.Move) {
+                    this.send(people.roomID, people.move(Move))
 
                 }
                 break;
-            case msgType.UserLink:
-                logger.info("LINK", people.ID)
+            case SocketEnum.msgType.UserLink:
+                // logger.info("LINK", people.Id)
+                const Link = SocketClientMsg.LinkRTC.decode(MSG.data)
 
+                if (people.roomID && Link instanceof SocketClientMsg.LinkRTC) {
+                    this.link(people, Symbol.for("" + Link.Id))
+                }
                 //console.log("LINK");      
-                this.link(people, Symbol.for("" + MSG.ID))
-                break;
-            case msgType.UserUnLink:
-                logger.info("UNLINK", people.ID)
 
-                //console.log("UNLINK");
+                break;
+            case SocketEnum.msgType.UserUnLink:
+                // logger.info("UNLINK", people.Id)
+
                 people.unLink()
                 break;
-            case msgType.UserLinkPrivate:
-                logger.info("LINKPRVIATE", people.ID)
-                this.linkPrviate(people, MSG.key)
+            case SocketEnum.msgType.UserLinkPrivate:
+                // logger.info("LINKPRVIATE", people.Id)
+                const LinkRTCPrivate = SocketClientMsg.LinkRTCPrivate.decode(MSG.data)
+
+                if (people.roomID && LinkRTCPrivate instanceof SocketClientMsg.LinkRTCPrivate) {
+                    this.linkPrviate(people, LinkRTCPrivate.key)
+                }
+
                 break;
             default:
                 break;

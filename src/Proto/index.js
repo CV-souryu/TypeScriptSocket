@@ -70,12 +70,12 @@ $root.SocketEnum = (function() {
          * Properties of a User.
          * @memberof SocketEnum
          * @interface IUser
-         * @property {number|null} [ID] User ID
+         * @property {number|null} [Id] User Id
          * @property {number|null} [x] User x
          * @property {number|null} [y] User y
          * @property {SocketEnum.UserDirection|null} [direction] User direction
          * @property {string|null} [nickname] User nickname
-         * @property {string|null} [strUserID] User strUserID
+         * @property {string|null} [strUserId] User strUserId
          * @property {number|null} [personAppearance] User personAppearance
          */
 
@@ -95,12 +95,12 @@ $root.SocketEnum = (function() {
         }
 
         /**
-         * User ID.
-         * @member {number} ID
+         * User Id.
+         * @member {number} Id
          * @memberof SocketEnum.User
          * @instance
          */
-        User.prototype.ID = 0;
+        User.prototype.Id = 0;
 
         /**
          * User x.
@@ -135,12 +135,12 @@ $root.SocketEnum = (function() {
         User.prototype.nickname = "";
 
         /**
-         * User strUserID.
-         * @member {string} strUserID
+         * User strUserId.
+         * @member {string} strUserId
          * @memberof SocketEnum.User
          * @instance
          */
-        User.prototype.strUserID = "";
+        User.prototype.strUserId = "";
 
         /**
          * User personAppearance.
@@ -174,8 +174,8 @@ $root.SocketEnum = (function() {
         User.encode = function encode(message, writer) {
             if (!writer)
                 writer = $Writer.create();
-            if (message.ID != null && Object.hasOwnProperty.call(message, "ID"))
-                writer.uint32(/* id 1, wireType 0 =*/8).uint32(message.ID);
+            if (message.Id != null && Object.hasOwnProperty.call(message, "Id"))
+                writer.uint32(/* id 1, wireType 0 =*/8).int32(message.Id);
             if (message.x != null && Object.hasOwnProperty.call(message, "x"))
                 writer.uint32(/* id 2, wireType 0 =*/16).sint32(message.x);
             if (message.y != null && Object.hasOwnProperty.call(message, "y"))
@@ -184,10 +184,10 @@ $root.SocketEnum = (function() {
                 writer.uint32(/* id 4, wireType 0 =*/32).int32(message.direction);
             if (message.nickname != null && Object.hasOwnProperty.call(message, "nickname"))
                 writer.uint32(/* id 5, wireType 2 =*/42).string(message.nickname);
-            if (message.strUserID != null && Object.hasOwnProperty.call(message, "strUserID"))
-                writer.uint32(/* id 6, wireType 2 =*/50).string(message.strUserID);
+            if (message.strUserId != null && Object.hasOwnProperty.call(message, "strUserId"))
+                writer.uint32(/* id 6, wireType 2 =*/50).string(message.strUserId);
             if (message.personAppearance != null && Object.hasOwnProperty.call(message, "personAppearance"))
-                writer.uint32(/* id 7, wireType 0 =*/56).uint32(message.personAppearance);
+                writer.uint32(/* id 7, wireType 0 =*/56).int32(message.personAppearance);
             return writer;
         };
 
@@ -223,7 +223,7 @@ $root.SocketEnum = (function() {
                 var tag = reader.uint32();
                 switch (tag >>> 3) {
                 case 1:
-                    message.ID = reader.uint32();
+                    message.Id = reader.int32();
                     break;
                 case 2:
                     message.x = reader.sint32();
@@ -238,10 +238,10 @@ $root.SocketEnum = (function() {
                     message.nickname = reader.string();
                     break;
                 case 6:
-                    message.strUserID = reader.string();
+                    message.strUserId = reader.string();
                     break;
                 case 7:
-                    message.personAppearance = reader.uint32();
+                    message.personAppearance = reader.int32();
                     break;
                 default:
                     reader.skipType(tag & 7);
@@ -278,9 +278,9 @@ $root.SocketEnum = (function() {
         User.verify = function verify(message) {
             if (typeof message !== "object" || message === null)
                 return "object expected";
-            if (message.ID != null && message.hasOwnProperty("ID"))
-                if (!$util.isInteger(message.ID))
-                    return "ID: integer expected";
+            if (message.Id != null && message.hasOwnProperty("Id"))
+                if (!$util.isInteger(message.Id))
+                    return "Id: integer expected";
             if (message.x != null && message.hasOwnProperty("x"))
                 if (!$util.isInteger(message.x))
                     return "x: integer expected";
@@ -300,9 +300,9 @@ $root.SocketEnum = (function() {
             if (message.nickname != null && message.hasOwnProperty("nickname"))
                 if (!$util.isString(message.nickname))
                     return "nickname: string expected";
-            if (message.strUserID != null && message.hasOwnProperty("strUserID"))
-                if (!$util.isString(message.strUserID))
-                    return "strUserID: string expected";
+            if (message.strUserId != null && message.hasOwnProperty("strUserId"))
+                if (!$util.isString(message.strUserId))
+                    return "strUserId: string expected";
             if (message.personAppearance != null && message.hasOwnProperty("personAppearance"))
                 if (!$util.isInteger(message.personAppearance))
                     return "personAppearance: integer expected";
@@ -321,8 +321,8 @@ $root.SocketEnum = (function() {
             if (object instanceof $root.SocketEnum.User)
                 return object;
             var message = new $root.SocketEnum.User();
-            if (object.ID != null)
-                message.ID = object.ID >>> 0;
+            if (object.Id != null)
+                message.Id = object.Id | 0;
             if (object.x != null)
                 message.x = object.x | 0;
             if (object.y != null)
@@ -347,10 +347,10 @@ $root.SocketEnum = (function() {
             }
             if (object.nickname != null)
                 message.nickname = String(object.nickname);
-            if (object.strUserID != null)
-                message.strUserID = String(object.strUserID);
+            if (object.strUserId != null)
+                message.strUserId = String(object.strUserId);
             if (object.personAppearance != null)
-                message.personAppearance = object.personAppearance >>> 0;
+                message.personAppearance = object.personAppearance | 0;
             return message;
         };
 
@@ -368,16 +368,16 @@ $root.SocketEnum = (function() {
                 options = {};
             var object = {};
             if (options.defaults) {
-                object.ID = 0;
+                object.Id = 0;
                 object.x = 0;
                 object.y = 0;
                 object.direction = options.enums === String ? "up" : 0;
                 object.nickname = "";
-                object.strUserID = "";
+                object.strUserId = "";
                 object.personAppearance = 0;
             }
-            if (message.ID != null && message.hasOwnProperty("ID"))
-                object.ID = message.ID;
+            if (message.Id != null && message.hasOwnProperty("Id"))
+                object.Id = message.Id;
             if (message.x != null && message.hasOwnProperty("x"))
                 object.x = message.x;
             if (message.y != null && message.hasOwnProperty("y"))
@@ -386,8 +386,8 @@ $root.SocketEnum = (function() {
                 object.direction = options.enums === String ? $root.SocketEnum.UserDirection[message.direction] : message.direction;
             if (message.nickname != null && message.hasOwnProperty("nickname"))
                 object.nickname = message.nickname;
-            if (message.strUserID != null && message.hasOwnProperty("strUserID"))
-                object.strUserID = message.strUserID;
+            if (message.strUserId != null && message.hasOwnProperty("strUserId"))
+                object.strUserId = message.strUserId;
             if (message.personAppearance != null && message.hasOwnProperty("personAppearance"))
                 object.personAppearance = message.personAppearance;
             return object;
@@ -426,7 +426,7 @@ $root.SocketClientMsg = (function() {
          * @memberof SocketClientMsg
          * @interface IJoin
          * @property {string|null} [nickname] Join nickname
-         * @property {string|null} [strUserID] Join strUserID
+         * @property {string|null} [strUserId] Join strUserId
          * @property {number|null} [personAppearance] Join personAppearance
          * @property {number|null} [x] Join x
          * @property {number|null} [y] Join y
@@ -457,12 +457,12 @@ $root.SocketClientMsg = (function() {
         Join.prototype.nickname = "";
 
         /**
-         * Join strUserID.
-         * @member {string} strUserID
+         * Join strUserId.
+         * @member {string} strUserId
          * @memberof SocketClientMsg.Join
          * @instance
          */
-        Join.prototype.strUserID = "";
+        Join.prototype.strUserId = "";
 
         /**
          * Join personAppearance.
@@ -522,10 +522,10 @@ $root.SocketClientMsg = (function() {
                 writer = $Writer.create();
             if (message.nickname != null && Object.hasOwnProperty.call(message, "nickname"))
                 writer.uint32(/* id 1, wireType 2 =*/10).string(message.nickname);
-            if (message.strUserID != null && Object.hasOwnProperty.call(message, "strUserID"))
-                writer.uint32(/* id 2, wireType 2 =*/18).string(message.strUserID);
+            if (message.strUserId != null && Object.hasOwnProperty.call(message, "strUserId"))
+                writer.uint32(/* id 2, wireType 2 =*/18).string(message.strUserId);
             if (message.personAppearance != null && Object.hasOwnProperty.call(message, "personAppearance"))
-                writer.uint32(/* id 3, wireType 0 =*/24).uint32(message.personAppearance);
+                writer.uint32(/* id 3, wireType 0 =*/24).int32(message.personAppearance);
             if (message.x != null && Object.hasOwnProperty.call(message, "x"))
                 writer.uint32(/* id 4, wireType 0 =*/32).sint32(message.x);
             if (message.y != null && Object.hasOwnProperty.call(message, "y"))
@@ -570,10 +570,10 @@ $root.SocketClientMsg = (function() {
                     message.nickname = reader.string();
                     break;
                 case 2:
-                    message.strUserID = reader.string();
+                    message.strUserId = reader.string();
                     break;
                 case 3:
-                    message.personAppearance = reader.uint32();
+                    message.personAppearance = reader.int32();
                     break;
                 case 4:
                     message.x = reader.sint32();
@@ -622,9 +622,9 @@ $root.SocketClientMsg = (function() {
             if (message.nickname != null && message.hasOwnProperty("nickname"))
                 if (!$util.isString(message.nickname))
                     return "nickname: string expected";
-            if (message.strUserID != null && message.hasOwnProperty("strUserID"))
-                if (!$util.isString(message.strUserID))
-                    return "strUserID: string expected";
+            if (message.strUserId != null && message.hasOwnProperty("strUserId"))
+                if (!$util.isString(message.strUserId))
+                    return "strUserId: string expected";
             if (message.personAppearance != null && message.hasOwnProperty("personAppearance"))
                 if (!$util.isInteger(message.personAppearance))
                     return "personAppearance: integer expected";
@@ -661,10 +661,10 @@ $root.SocketClientMsg = (function() {
             var message = new $root.SocketClientMsg.Join();
             if (object.nickname != null)
                 message.nickname = String(object.nickname);
-            if (object.strUserID != null)
-                message.strUserID = String(object.strUserID);
+            if (object.strUserId != null)
+                message.strUserId = String(object.strUserId);
             if (object.personAppearance != null)
-                message.personAppearance = object.personAppearance >>> 0;
+                message.personAppearance = object.personAppearance | 0;
             if (object.x != null)
                 message.x = object.x | 0;
             if (object.y != null)
@@ -705,7 +705,7 @@ $root.SocketClientMsg = (function() {
             var object = {};
             if (options.defaults) {
                 object.nickname = "";
-                object.strUserID = "";
+                object.strUserId = "";
                 object.personAppearance = 0;
                 object.x = 0;
                 object.y = 0;
@@ -713,8 +713,8 @@ $root.SocketClientMsg = (function() {
             }
             if (message.nickname != null && message.hasOwnProperty("nickname"))
                 object.nickname = message.nickname;
-            if (message.strUserID != null && message.hasOwnProperty("strUserID"))
-                object.strUserID = message.strUserID;
+            if (message.strUserId != null && message.hasOwnProperty("strUserId"))
+                object.strUserId = message.strUserId;
             if (message.personAppearance != null && message.hasOwnProperty("personAppearance"))
                 object.personAppearance = message.personAppearance;
             if (message.x != null && message.hasOwnProperty("x"))
@@ -1161,7 +1161,7 @@ $root.SocketClientMsg = (function() {
          * Properties of a LinkRTC.
          * @memberof SocketClientMsg
          * @interface ILinkRTC
-         * @property {number|null} [ID] LinkRTC ID
+         * @property {number|null} [Id] LinkRTC Id
          */
 
         /**
@@ -1180,12 +1180,12 @@ $root.SocketClientMsg = (function() {
         }
 
         /**
-         * LinkRTC ID.
-         * @member {number} ID
+         * LinkRTC Id.
+         * @member {number} Id
          * @memberof SocketClientMsg.LinkRTC
          * @instance
          */
-        LinkRTC.prototype.ID = 0;
+        LinkRTC.prototype.Id = 0;
 
         /**
          * Creates a new LinkRTC instance using the specified properties.
@@ -1211,8 +1211,8 @@ $root.SocketClientMsg = (function() {
         LinkRTC.encode = function encode(message, writer) {
             if (!writer)
                 writer = $Writer.create();
-            if (message.ID != null && Object.hasOwnProperty.call(message, "ID"))
-                writer.uint32(/* id 1, wireType 0 =*/8).uint32(message.ID);
+            if (message.Id != null && Object.hasOwnProperty.call(message, "Id"))
+                writer.uint32(/* id 1, wireType 0 =*/8).int32(message.Id);
             return writer;
         };
 
@@ -1248,7 +1248,7 @@ $root.SocketClientMsg = (function() {
                 var tag = reader.uint32();
                 switch (tag >>> 3) {
                 case 1:
-                    message.ID = reader.uint32();
+                    message.Id = reader.int32();
                     break;
                 default:
                     reader.skipType(tag & 7);
@@ -1285,9 +1285,9 @@ $root.SocketClientMsg = (function() {
         LinkRTC.verify = function verify(message) {
             if (typeof message !== "object" || message === null)
                 return "object expected";
-            if (message.ID != null && message.hasOwnProperty("ID"))
-                if (!$util.isInteger(message.ID))
-                    return "ID: integer expected";
+            if (message.Id != null && message.hasOwnProperty("Id"))
+                if (!$util.isInteger(message.Id))
+                    return "Id: integer expected";
             return null;
         };
 
@@ -1303,8 +1303,8 @@ $root.SocketClientMsg = (function() {
             if (object instanceof $root.SocketClientMsg.LinkRTC)
                 return object;
             var message = new $root.SocketClientMsg.LinkRTC();
-            if (object.ID != null)
-                message.ID = object.ID >>> 0;
+            if (object.Id != null)
+                message.Id = object.Id | 0;
             return message;
         };
 
@@ -1322,9 +1322,9 @@ $root.SocketClientMsg = (function() {
                 options = {};
             var object = {};
             if (options.defaults)
-                object.ID = 0;
-            if (message.ID != null && message.hasOwnProperty("ID"))
-                object.ID = message.ID;
+                object.Id = 0;
+            if (message.Id != null && message.hasOwnProperty("Id"))
+                object.Id = message.Id;
             return object;
         };
 
@@ -1696,12 +1696,7 @@ $root.SocketClientMsg = (function() {
          * @memberof SocketClientMsg
          * @interface IMsg
          * @property {SocketEnum.msgType|null} [type] Msg type
-         * @property {SocketClientMsg.IJoin|null} [join] Msg join
-         * @property {SocketClientMsg.IMove|null} [move] Msg move
-         * @property {SocketClientMsg.ILeave|null} [leage] Msg leage
-         * @property {SocketClientMsg.ILinkRTC|null} [linkRTC] Msg linkRTC
-         * @property {SocketClientMsg.IUnLinkRTC|null} [unLinkRTC] Msg unLinkRTC
-         * @property {SocketClientMsg.ILinkRTCPrivate|null} [linkRTCPrivate] Msg linkRTCPrivate
+         * @property {Uint8Array|null} [data] Msg data
          */
 
         /**
@@ -1728,66 +1723,12 @@ $root.SocketClientMsg = (function() {
         Msg.prototype.type = 0;
 
         /**
-         * Msg join.
-         * @member {SocketClientMsg.IJoin|null|undefined} join
-         * @memberof SocketClientMsg.Msg
-         * @instance
-         */
-        Msg.prototype.join = null;
-
-        /**
-         * Msg move.
-         * @member {SocketClientMsg.IMove|null|undefined} move
-         * @memberof SocketClientMsg.Msg
-         * @instance
-         */
-        Msg.prototype.move = null;
-
-        /**
-         * Msg leage.
-         * @member {SocketClientMsg.ILeave|null|undefined} leage
-         * @memberof SocketClientMsg.Msg
-         * @instance
-         */
-        Msg.prototype.leage = null;
-
-        /**
-         * Msg linkRTC.
-         * @member {SocketClientMsg.ILinkRTC|null|undefined} linkRTC
-         * @memberof SocketClientMsg.Msg
-         * @instance
-         */
-        Msg.prototype.linkRTC = null;
-
-        /**
-         * Msg unLinkRTC.
-         * @member {SocketClientMsg.IUnLinkRTC|null|undefined} unLinkRTC
-         * @memberof SocketClientMsg.Msg
-         * @instance
-         */
-        Msg.prototype.unLinkRTC = null;
-
-        /**
-         * Msg linkRTCPrivate.
-         * @member {SocketClientMsg.ILinkRTCPrivate|null|undefined} linkRTCPrivate
-         * @memberof SocketClientMsg.Msg
-         * @instance
-         */
-        Msg.prototype.linkRTCPrivate = null;
-
-        // OneOf field names bound to virtual getters and setters
-        var $oneOfFields;
-
-        /**
          * Msg data.
-         * @member {"join"|"move"|"leage"|"linkRTC"|"unLinkRTC"|"linkRTCPrivate"|undefined} data
+         * @member {Uint8Array} data
          * @memberof SocketClientMsg.Msg
          * @instance
          */
-        Object.defineProperty(Msg.prototype, "data", {
-            get: $util.oneOfGetter($oneOfFields = ["join", "move", "leage", "linkRTC", "unLinkRTC", "linkRTCPrivate"]),
-            set: $util.oneOfSetter($oneOfFields)
-        });
+        Msg.prototype.data = $util.newBuffer([]);
 
         /**
          * Creates a new Msg instance using the specified properties.
@@ -1815,18 +1756,8 @@ $root.SocketClientMsg = (function() {
                 writer = $Writer.create();
             if (message.type != null && Object.hasOwnProperty.call(message, "type"))
                 writer.uint32(/* id 1, wireType 0 =*/8).int32(message.type);
-            if (message.join != null && Object.hasOwnProperty.call(message, "join"))
-                $root.SocketClientMsg.Join.encode(message.join, writer.uint32(/* id 2, wireType 2 =*/18).fork()).ldelim();
-            if (message.move != null && Object.hasOwnProperty.call(message, "move"))
-                $root.SocketClientMsg.Move.encode(message.move, writer.uint32(/* id 3, wireType 2 =*/26).fork()).ldelim();
-            if (message.leage != null && Object.hasOwnProperty.call(message, "leage"))
-                $root.SocketClientMsg.Leave.encode(message.leage, writer.uint32(/* id 4, wireType 2 =*/34).fork()).ldelim();
-            if (message.linkRTC != null && Object.hasOwnProperty.call(message, "linkRTC"))
-                $root.SocketClientMsg.LinkRTC.encode(message.linkRTC, writer.uint32(/* id 5, wireType 2 =*/42).fork()).ldelim();
-            if (message.unLinkRTC != null && Object.hasOwnProperty.call(message, "unLinkRTC"))
-                $root.SocketClientMsg.UnLinkRTC.encode(message.unLinkRTC, writer.uint32(/* id 6, wireType 2 =*/50).fork()).ldelim();
-            if (message.linkRTCPrivate != null && Object.hasOwnProperty.call(message, "linkRTCPrivate"))
-                $root.SocketClientMsg.LinkRTCPrivate.encode(message.linkRTCPrivate, writer.uint32(/* id 7, wireType 2 =*/58).fork()).ldelim();
+            if (message.data != null && Object.hasOwnProperty.call(message, "data"))
+                writer.uint32(/* id 2, wireType 2 =*/18).bytes(message.data);
             return writer;
         };
 
@@ -1865,22 +1796,7 @@ $root.SocketClientMsg = (function() {
                     message.type = reader.int32();
                     break;
                 case 2:
-                    message.join = $root.SocketClientMsg.Join.decode(reader, reader.uint32());
-                    break;
-                case 3:
-                    message.move = $root.SocketClientMsg.Move.decode(reader, reader.uint32());
-                    break;
-                case 4:
-                    message.leage = $root.SocketClientMsg.Leave.decode(reader, reader.uint32());
-                    break;
-                case 5:
-                    message.linkRTC = $root.SocketClientMsg.LinkRTC.decode(reader, reader.uint32());
-                    break;
-                case 6:
-                    message.unLinkRTC = $root.SocketClientMsg.UnLinkRTC.decode(reader, reader.uint32());
-                    break;
-                case 7:
-                    message.linkRTCPrivate = $root.SocketClientMsg.LinkRTCPrivate.decode(reader, reader.uint32());
+                    message.data = reader.bytes();
                     break;
                 default:
                     reader.skipType(tag & 7);
@@ -1917,7 +1833,6 @@ $root.SocketClientMsg = (function() {
         Msg.verify = function verify(message) {
             if (typeof message !== "object" || message === null)
                 return "object expected";
-            var properties = {};
             if (message.type != null && message.hasOwnProperty("type"))
                 switch (message.type) {
                 default:
@@ -1933,64 +1848,9 @@ $root.SocketClientMsg = (function() {
                 case 3:
                     break;
                 }
-            if (message.join != null && message.hasOwnProperty("join")) {
-                properties.data = 1;
-                {
-                    var error = $root.SocketClientMsg.Join.verify(message.join);
-                    if (error)
-                        return "join." + error;
-                }
-            }
-            if (message.move != null && message.hasOwnProperty("move")) {
-                if (properties.data === 1)
-                    return "data: multiple values";
-                properties.data = 1;
-                {
-                    var error = $root.SocketClientMsg.Move.verify(message.move);
-                    if (error)
-                        return "move." + error;
-                }
-            }
-            if (message.leage != null && message.hasOwnProperty("leage")) {
-                if (properties.data === 1)
-                    return "data: multiple values";
-                properties.data = 1;
-                {
-                    var error = $root.SocketClientMsg.Leave.verify(message.leage);
-                    if (error)
-                        return "leage." + error;
-                }
-            }
-            if (message.linkRTC != null && message.hasOwnProperty("linkRTC")) {
-                if (properties.data === 1)
-                    return "data: multiple values";
-                properties.data = 1;
-                {
-                    var error = $root.SocketClientMsg.LinkRTC.verify(message.linkRTC);
-                    if (error)
-                        return "linkRTC." + error;
-                }
-            }
-            if (message.unLinkRTC != null && message.hasOwnProperty("unLinkRTC")) {
-                if (properties.data === 1)
-                    return "data: multiple values";
-                properties.data = 1;
-                {
-                    var error = $root.SocketClientMsg.UnLinkRTC.verify(message.unLinkRTC);
-                    if (error)
-                        return "unLinkRTC." + error;
-                }
-            }
-            if (message.linkRTCPrivate != null && message.hasOwnProperty("linkRTCPrivate")) {
-                if (properties.data === 1)
-                    return "data: multiple values";
-                properties.data = 1;
-                {
-                    var error = $root.SocketClientMsg.LinkRTCPrivate.verify(message.linkRTCPrivate);
-                    if (error)
-                        return "linkRTCPrivate." + error;
-                }
-            }
+            if (message.data != null && message.hasOwnProperty("data"))
+                if (!(message.data && typeof message.data.length === "number" || $util.isString(message.data)))
+                    return "data: buffer expected";
             return null;
         };
 
@@ -2044,36 +1904,11 @@ $root.SocketClientMsg = (function() {
                 message.type = 3;
                 break;
             }
-            if (object.join != null) {
-                if (typeof object.join !== "object")
-                    throw TypeError(".SocketClientMsg.Msg.join: object expected");
-                message.join = $root.SocketClientMsg.Join.fromObject(object.join);
-            }
-            if (object.move != null) {
-                if (typeof object.move !== "object")
-                    throw TypeError(".SocketClientMsg.Msg.move: object expected");
-                message.move = $root.SocketClientMsg.Move.fromObject(object.move);
-            }
-            if (object.leage != null) {
-                if (typeof object.leage !== "object")
-                    throw TypeError(".SocketClientMsg.Msg.leage: object expected");
-                message.leage = $root.SocketClientMsg.Leave.fromObject(object.leage);
-            }
-            if (object.linkRTC != null) {
-                if (typeof object.linkRTC !== "object")
-                    throw TypeError(".SocketClientMsg.Msg.linkRTC: object expected");
-                message.linkRTC = $root.SocketClientMsg.LinkRTC.fromObject(object.linkRTC);
-            }
-            if (object.unLinkRTC != null) {
-                if (typeof object.unLinkRTC !== "object")
-                    throw TypeError(".SocketClientMsg.Msg.unLinkRTC: object expected");
-                message.unLinkRTC = $root.SocketClientMsg.UnLinkRTC.fromObject(object.unLinkRTC);
-            }
-            if (object.linkRTCPrivate != null) {
-                if (typeof object.linkRTCPrivate !== "object")
-                    throw TypeError(".SocketClientMsg.Msg.linkRTCPrivate: object expected");
-                message.linkRTCPrivate = $root.SocketClientMsg.LinkRTCPrivate.fromObject(object.linkRTCPrivate);
-            }
+            if (object.data != null)
+                if (typeof object.data === "string")
+                    $util.base64.decode(object.data, message.data = $util.newBuffer($util.base64.length(object.data)), 0);
+                else if (object.data.length)
+                    message.data = object.data;
             return message;
         };
 
@@ -2090,40 +1925,20 @@ $root.SocketClientMsg = (function() {
             if (!options)
                 options = {};
             var object = {};
-            if (options.defaults)
+            if (options.defaults) {
                 object.type = options.enums === String ? "ClientInit" : 0;
+                if (options.bytes === String)
+                    object.data = "";
+                else {
+                    object.data = [];
+                    if (options.bytes !== Array)
+                        object.data = $util.newBuffer(object.data);
+                }
+            }
             if (message.type != null && message.hasOwnProperty("type"))
                 object.type = options.enums === String ? $root.SocketEnum.msgType[message.type] : message.type;
-            if (message.join != null && message.hasOwnProperty("join")) {
-                object.join = $root.SocketClientMsg.Join.toObject(message.join, options);
-                if (options.oneofs)
-                    object.data = "join";
-            }
-            if (message.move != null && message.hasOwnProperty("move")) {
-                object.move = $root.SocketClientMsg.Move.toObject(message.move, options);
-                if (options.oneofs)
-                    object.data = "move";
-            }
-            if (message.leage != null && message.hasOwnProperty("leage")) {
-                object.leage = $root.SocketClientMsg.Leave.toObject(message.leage, options);
-                if (options.oneofs)
-                    object.data = "leage";
-            }
-            if (message.linkRTC != null && message.hasOwnProperty("linkRTC")) {
-                object.linkRTC = $root.SocketClientMsg.LinkRTC.toObject(message.linkRTC, options);
-                if (options.oneofs)
-                    object.data = "linkRTC";
-            }
-            if (message.unLinkRTC != null && message.hasOwnProperty("unLinkRTC")) {
-                object.unLinkRTC = $root.SocketClientMsg.UnLinkRTC.toObject(message.unLinkRTC, options);
-                if (options.oneofs)
-                    object.data = "unLinkRTC";
-            }
-            if (message.linkRTCPrivate != null && message.hasOwnProperty("linkRTCPrivate")) {
-                object.linkRTCPrivate = $root.SocketClientMsg.LinkRTCPrivate.toObject(message.linkRTCPrivate, options);
-                if (options.oneofs)
-                    object.data = "linkRTCPrivate";
-            }
+            if (message.data != null && message.hasOwnProperty("data"))
+                object.data = options.bytes === String ? $util.base64.encode(message.data, 0, message.data.length) : options.bytes === Array ? Array.prototype.slice.call(message.data) : message.data;
             return object;
         };
 
@@ -2159,7 +1974,7 @@ $root.SocketServerMsg = (function() {
          * Properties of a ConnectInit.
          * @memberof SocketServerMsg
          * @interface IConnectInit
-         * @property {number|null} [ID] ConnectInit ID
+         * @property {number|null} [Id] ConnectInit Id
          */
 
         /**
@@ -2178,12 +1993,12 @@ $root.SocketServerMsg = (function() {
         }
 
         /**
-         * ConnectInit ID.
-         * @member {number} ID
+         * ConnectInit Id.
+         * @member {number} Id
          * @memberof SocketServerMsg.ConnectInit
          * @instance
          */
-        ConnectInit.prototype.ID = 0;
+        ConnectInit.prototype.Id = 0;
 
         /**
          * Creates a new ConnectInit instance using the specified properties.
@@ -2209,8 +2024,8 @@ $root.SocketServerMsg = (function() {
         ConnectInit.encode = function encode(message, writer) {
             if (!writer)
                 writer = $Writer.create();
-            if (message.ID != null && Object.hasOwnProperty.call(message, "ID"))
-                writer.uint32(/* id 1, wireType 0 =*/8).uint32(message.ID);
+            if (message.Id != null && Object.hasOwnProperty.call(message, "Id"))
+                writer.uint32(/* id 1, wireType 0 =*/8).int32(message.Id);
             return writer;
         };
 
@@ -2246,7 +2061,7 @@ $root.SocketServerMsg = (function() {
                 var tag = reader.uint32();
                 switch (tag >>> 3) {
                 case 1:
-                    message.ID = reader.uint32();
+                    message.Id = reader.int32();
                     break;
                 default:
                     reader.skipType(tag & 7);
@@ -2283,9 +2098,9 @@ $root.SocketServerMsg = (function() {
         ConnectInit.verify = function verify(message) {
             if (typeof message !== "object" || message === null)
                 return "object expected";
-            if (message.ID != null && message.hasOwnProperty("ID"))
-                if (!$util.isInteger(message.ID))
-                    return "ID: integer expected";
+            if (message.Id != null && message.hasOwnProperty("Id"))
+                if (!$util.isInteger(message.Id))
+                    return "Id: integer expected";
             return null;
         };
 
@@ -2301,8 +2116,8 @@ $root.SocketServerMsg = (function() {
             if (object instanceof $root.SocketServerMsg.ConnectInit)
                 return object;
             var message = new $root.SocketServerMsg.ConnectInit();
-            if (object.ID != null)
-                message.ID = object.ID >>> 0;
+            if (object.Id != null)
+                message.Id = object.Id | 0;
             return message;
         };
 
@@ -2320,9 +2135,9 @@ $root.SocketServerMsg = (function() {
                 options = {};
             var object = {};
             if (options.defaults)
-                object.ID = 0;
-            if (message.ID != null && message.hasOwnProperty("ID"))
-                object.ID = message.ID;
+                object.Id = 0;
+            if (message.Id != null && message.hasOwnProperty("Id"))
+                object.Id = message.Id;
             return object;
         };
 
@@ -2554,13 +2369,7 @@ $root.SocketServerMsg = (function() {
          * Properties of a Join.
          * @memberof SocketServerMsg
          * @interface IJoin
-         * @property {number|null} [ID] Join ID
-         * @property {number|null} [x] Join x
-         * @property {number|null} [y] Join y
-         * @property {SocketEnum.UserDirection|null} [direction] Join direction
-         * @property {string|null} [nickname] Join nickname
-         * @property {string|null} [strUserID] Join strUserID
-         * @property {number|null} [personAppearance] Join personAppearance
+         * @property {SocketEnum.IUser|null} [member] Join member
          */
 
         /**
@@ -2579,60 +2388,12 @@ $root.SocketServerMsg = (function() {
         }
 
         /**
-         * Join ID.
-         * @member {number} ID
+         * Join member.
+         * @member {SocketEnum.IUser|null|undefined} member
          * @memberof SocketServerMsg.Join
          * @instance
          */
-        Join.prototype.ID = 0;
-
-        /**
-         * Join x.
-         * @member {number} x
-         * @memberof SocketServerMsg.Join
-         * @instance
-         */
-        Join.prototype.x = 0;
-
-        /**
-         * Join y.
-         * @member {number} y
-         * @memberof SocketServerMsg.Join
-         * @instance
-         */
-        Join.prototype.y = 0;
-
-        /**
-         * Join direction.
-         * @member {SocketEnum.UserDirection} direction
-         * @memberof SocketServerMsg.Join
-         * @instance
-         */
-        Join.prototype.direction = 0;
-
-        /**
-         * Join nickname.
-         * @member {string} nickname
-         * @memberof SocketServerMsg.Join
-         * @instance
-         */
-        Join.prototype.nickname = "";
-
-        /**
-         * Join strUserID.
-         * @member {string} strUserID
-         * @memberof SocketServerMsg.Join
-         * @instance
-         */
-        Join.prototype.strUserID = "";
-
-        /**
-         * Join personAppearance.
-         * @member {number} personAppearance
-         * @memberof SocketServerMsg.Join
-         * @instance
-         */
-        Join.prototype.personAppearance = 0;
+        Join.prototype.member = null;
 
         /**
          * Creates a new Join instance using the specified properties.
@@ -2658,20 +2419,8 @@ $root.SocketServerMsg = (function() {
         Join.encode = function encode(message, writer) {
             if (!writer)
                 writer = $Writer.create();
-            if (message.ID != null && Object.hasOwnProperty.call(message, "ID"))
-                writer.uint32(/* id 1, wireType 0 =*/8).uint32(message.ID);
-            if (message.x != null && Object.hasOwnProperty.call(message, "x"))
-                writer.uint32(/* id 2, wireType 0 =*/16).sint32(message.x);
-            if (message.y != null && Object.hasOwnProperty.call(message, "y"))
-                writer.uint32(/* id 3, wireType 0 =*/24).sint32(message.y);
-            if (message.direction != null && Object.hasOwnProperty.call(message, "direction"))
-                writer.uint32(/* id 4, wireType 0 =*/32).int32(message.direction);
-            if (message.nickname != null && Object.hasOwnProperty.call(message, "nickname"))
-                writer.uint32(/* id 5, wireType 2 =*/42).string(message.nickname);
-            if (message.strUserID != null && Object.hasOwnProperty.call(message, "strUserID"))
-                writer.uint32(/* id 6, wireType 2 =*/50).string(message.strUserID);
-            if (message.personAppearance != null && Object.hasOwnProperty.call(message, "personAppearance"))
-                writer.uint32(/* id 7, wireType 0 =*/56).uint32(message.personAppearance);
+            if (message.member != null && Object.hasOwnProperty.call(message, "member"))
+                $root.SocketEnum.User.encode(message.member, writer.uint32(/* id 1, wireType 2 =*/10).fork()).ldelim();
             return writer;
         };
 
@@ -2707,25 +2456,7 @@ $root.SocketServerMsg = (function() {
                 var tag = reader.uint32();
                 switch (tag >>> 3) {
                 case 1:
-                    message.ID = reader.uint32();
-                    break;
-                case 2:
-                    message.x = reader.sint32();
-                    break;
-                case 3:
-                    message.y = reader.sint32();
-                    break;
-                case 4:
-                    message.direction = reader.int32();
-                    break;
-                case 5:
-                    message.nickname = reader.string();
-                    break;
-                case 6:
-                    message.strUserID = reader.string();
-                    break;
-                case 7:
-                    message.personAppearance = reader.uint32();
+                    message.member = $root.SocketEnum.User.decode(reader, reader.uint32());
                     break;
                 default:
                     reader.skipType(tag & 7);
@@ -2762,34 +2493,11 @@ $root.SocketServerMsg = (function() {
         Join.verify = function verify(message) {
             if (typeof message !== "object" || message === null)
                 return "object expected";
-            if (message.ID != null && message.hasOwnProperty("ID"))
-                if (!$util.isInteger(message.ID))
-                    return "ID: integer expected";
-            if (message.x != null && message.hasOwnProperty("x"))
-                if (!$util.isInteger(message.x))
-                    return "x: integer expected";
-            if (message.y != null && message.hasOwnProperty("y"))
-                if (!$util.isInteger(message.y))
-                    return "y: integer expected";
-            if (message.direction != null && message.hasOwnProperty("direction"))
-                switch (message.direction) {
-                default:
-                    return "direction: enum value expected";
-                case 0:
-                case 1:
-                case 2:
-                case 3:
-                    break;
-                }
-            if (message.nickname != null && message.hasOwnProperty("nickname"))
-                if (!$util.isString(message.nickname))
-                    return "nickname: string expected";
-            if (message.strUserID != null && message.hasOwnProperty("strUserID"))
-                if (!$util.isString(message.strUserID))
-                    return "strUserID: string expected";
-            if (message.personAppearance != null && message.hasOwnProperty("personAppearance"))
-                if (!$util.isInteger(message.personAppearance))
-                    return "personAppearance: integer expected";
+            if (message.member != null && message.hasOwnProperty("member")) {
+                var error = $root.SocketEnum.User.verify(message.member);
+                if (error)
+                    return "member." + error;
+            }
             return null;
         };
 
@@ -2805,36 +2513,11 @@ $root.SocketServerMsg = (function() {
             if (object instanceof $root.SocketServerMsg.Join)
                 return object;
             var message = new $root.SocketServerMsg.Join();
-            if (object.ID != null)
-                message.ID = object.ID >>> 0;
-            if (object.x != null)
-                message.x = object.x | 0;
-            if (object.y != null)
-                message.y = object.y | 0;
-            switch (object.direction) {
-            case "up":
-            case 0:
-                message.direction = 0;
-                break;
-            case "right":
-            case 1:
-                message.direction = 1;
-                break;
-            case "down":
-            case 2:
-                message.direction = 2;
-                break;
-            case "left":
-            case 3:
-                message.direction = 3;
-                break;
+            if (object.member != null) {
+                if (typeof object.member !== "object")
+                    throw TypeError(".SocketServerMsg.Join.member: object expected");
+                message.member = $root.SocketEnum.User.fromObject(object.member);
             }
-            if (object.nickname != null)
-                message.nickname = String(object.nickname);
-            if (object.strUserID != null)
-                message.strUserID = String(object.strUserID);
-            if (object.personAppearance != null)
-                message.personAppearance = object.personAppearance >>> 0;
             return message;
         };
 
@@ -2851,29 +2534,10 @@ $root.SocketServerMsg = (function() {
             if (!options)
                 options = {};
             var object = {};
-            if (options.defaults) {
-                object.ID = 0;
-                object.x = 0;
-                object.y = 0;
-                object.direction = options.enums === String ? "up" : 0;
-                object.nickname = "";
-                object.strUserID = "";
-                object.personAppearance = 0;
-            }
-            if (message.ID != null && message.hasOwnProperty("ID"))
-                object.ID = message.ID;
-            if (message.x != null && message.hasOwnProperty("x"))
-                object.x = message.x;
-            if (message.y != null && message.hasOwnProperty("y"))
-                object.y = message.y;
-            if (message.direction != null && message.hasOwnProperty("direction"))
-                object.direction = options.enums === String ? $root.SocketEnum.UserDirection[message.direction] : message.direction;
-            if (message.nickname != null && message.hasOwnProperty("nickname"))
-                object.nickname = message.nickname;
-            if (message.strUserID != null && message.hasOwnProperty("strUserID"))
-                object.strUserID = message.strUserID;
-            if (message.personAppearance != null && message.hasOwnProperty("personAppearance"))
-                object.personAppearance = message.personAppearance;
+            if (options.defaults)
+                object.member = null;
+            if (message.member != null && message.hasOwnProperty("member"))
+                object.member = $root.SocketEnum.User.toObject(message.member, options);
             return object;
         };
 
@@ -2897,7 +2561,7 @@ $root.SocketServerMsg = (function() {
          * Properties of a Move.
          * @memberof SocketServerMsg
          * @interface IMove
-         * @property {number|null} [ID] Move ID
+         * @property {number|null} [Id] Move Id
          * @property {number|null} [x] Move x
          * @property {number|null} [y] Move y
          * @property {SocketEnum.UserDirection|null} [direction] Move direction
@@ -2919,12 +2583,12 @@ $root.SocketServerMsg = (function() {
         }
 
         /**
-         * Move ID.
-         * @member {number} ID
+         * Move Id.
+         * @member {number} Id
          * @memberof SocketServerMsg.Move
          * @instance
          */
-        Move.prototype.ID = 0;
+        Move.prototype.Id = 0;
 
         /**
          * Move x.
@@ -2974,8 +2638,8 @@ $root.SocketServerMsg = (function() {
         Move.encode = function encode(message, writer) {
             if (!writer)
                 writer = $Writer.create();
-            if (message.ID != null && Object.hasOwnProperty.call(message, "ID"))
-                writer.uint32(/* id 1, wireType 0 =*/8).uint32(message.ID);
+            if (message.Id != null && Object.hasOwnProperty.call(message, "Id"))
+                writer.uint32(/* id 1, wireType 0 =*/8).int32(message.Id);
             if (message.x != null && Object.hasOwnProperty.call(message, "x"))
                 writer.uint32(/* id 2, wireType 0 =*/16).sint32(message.x);
             if (message.y != null && Object.hasOwnProperty.call(message, "y"))
@@ -3017,7 +2681,7 @@ $root.SocketServerMsg = (function() {
                 var tag = reader.uint32();
                 switch (tag >>> 3) {
                 case 1:
-                    message.ID = reader.uint32();
+                    message.Id = reader.int32();
                     break;
                 case 2:
                     message.x = reader.sint32();
@@ -3063,9 +2727,9 @@ $root.SocketServerMsg = (function() {
         Move.verify = function verify(message) {
             if (typeof message !== "object" || message === null)
                 return "object expected";
-            if (message.ID != null && message.hasOwnProperty("ID"))
-                if (!$util.isInteger(message.ID))
-                    return "ID: integer expected";
+            if (message.Id != null && message.hasOwnProperty("Id"))
+                if (!$util.isInteger(message.Id))
+                    return "Id: integer expected";
             if (message.x != null && message.hasOwnProperty("x"))
                 if (!$util.isInteger(message.x))
                     return "x: integer expected";
@@ -3097,8 +2761,8 @@ $root.SocketServerMsg = (function() {
             if (object instanceof $root.SocketServerMsg.Move)
                 return object;
             var message = new $root.SocketServerMsg.Move();
-            if (object.ID != null)
-                message.ID = object.ID >>> 0;
+            if (object.Id != null)
+                message.Id = object.Id | 0;
             if (object.x != null)
                 message.x = object.x | 0;
             if (object.y != null)
@@ -3138,13 +2802,13 @@ $root.SocketServerMsg = (function() {
                 options = {};
             var object = {};
             if (options.defaults) {
-                object.ID = 0;
+                object.Id = 0;
                 object.x = 0;
                 object.y = 0;
                 object.direction = options.enums === String ? "up" : 0;
             }
-            if (message.ID != null && message.hasOwnProperty("ID"))
-                object.ID = message.ID;
+            if (message.Id != null && message.hasOwnProperty("Id"))
+                object.Id = message.Id;
             if (message.x != null && message.hasOwnProperty("x"))
                 object.x = message.x;
             if (message.y != null && message.hasOwnProperty("y"))
@@ -3174,7 +2838,7 @@ $root.SocketServerMsg = (function() {
          * Properties of a Leave.
          * @memberof SocketServerMsg
          * @interface ILeave
-         * @property {number|null} [ID] Leave ID
+         * @property {number|null} [Id] Leave Id
          */
 
         /**
@@ -3193,12 +2857,12 @@ $root.SocketServerMsg = (function() {
         }
 
         /**
-         * Leave ID.
-         * @member {number} ID
+         * Leave Id.
+         * @member {number} Id
          * @memberof SocketServerMsg.Leave
          * @instance
          */
-        Leave.prototype.ID = 0;
+        Leave.prototype.Id = 0;
 
         /**
          * Creates a new Leave instance using the specified properties.
@@ -3224,8 +2888,8 @@ $root.SocketServerMsg = (function() {
         Leave.encode = function encode(message, writer) {
             if (!writer)
                 writer = $Writer.create();
-            if (message.ID != null && Object.hasOwnProperty.call(message, "ID"))
-                writer.uint32(/* id 1, wireType 0 =*/8).uint32(message.ID);
+            if (message.Id != null && Object.hasOwnProperty.call(message, "Id"))
+                writer.uint32(/* id 1, wireType 0 =*/8).int32(message.Id);
             return writer;
         };
 
@@ -3261,7 +2925,7 @@ $root.SocketServerMsg = (function() {
                 var tag = reader.uint32();
                 switch (tag >>> 3) {
                 case 1:
-                    message.ID = reader.uint32();
+                    message.Id = reader.int32();
                     break;
                 default:
                     reader.skipType(tag & 7);
@@ -3298,9 +2962,9 @@ $root.SocketServerMsg = (function() {
         Leave.verify = function verify(message) {
             if (typeof message !== "object" || message === null)
                 return "object expected";
-            if (message.ID != null && message.hasOwnProperty("ID"))
-                if (!$util.isInteger(message.ID))
-                    return "ID: integer expected";
+            if (message.Id != null && message.hasOwnProperty("Id"))
+                if (!$util.isInteger(message.Id))
+                    return "Id: integer expected";
             return null;
         };
 
@@ -3316,8 +2980,8 @@ $root.SocketServerMsg = (function() {
             if (object instanceof $root.SocketServerMsg.Leave)
                 return object;
             var message = new $root.SocketServerMsg.Leave();
-            if (object.ID != null)
-                message.ID = object.ID >>> 0;
+            if (object.Id != null)
+                message.Id = object.Id | 0;
             return message;
         };
 
@@ -3335,9 +2999,9 @@ $root.SocketServerMsg = (function() {
                 options = {};
             var object = {};
             if (options.defaults)
-                object.ID = 0;
-            if (message.ID != null && message.hasOwnProperty("ID"))
-                object.ID = message.ID;
+                object.Id = 0;
+            if (message.Id != null && message.hasOwnProperty("Id"))
+                object.Id = message.Id;
             return object;
         };
 
@@ -3361,7 +3025,7 @@ $root.SocketServerMsg = (function() {
          * Properties of a LinkRTC.
          * @memberof SocketServerMsg
          * @interface ILinkRTC
-         * @property {number|null} [members] LinkRTC members
+         * @property {Array.<number>|null} [members] LinkRTC members
          */
 
         /**
@@ -3373,6 +3037,7 @@ $root.SocketServerMsg = (function() {
          * @param {SocketServerMsg.ILinkRTC=} [properties] Properties to set
          */
         function LinkRTC(properties) {
+            this.members = [];
             if (properties)
                 for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
                     if (properties[keys[i]] != null)
@@ -3381,11 +3046,11 @@ $root.SocketServerMsg = (function() {
 
         /**
          * LinkRTC members.
-         * @member {number} members
+         * @member {Array.<number>} members
          * @memberof SocketServerMsg.LinkRTC
          * @instance
          */
-        LinkRTC.prototype.members = 0;
+        LinkRTC.prototype.members = $util.emptyArray;
 
         /**
          * Creates a new LinkRTC instance using the specified properties.
@@ -3411,8 +3076,12 @@ $root.SocketServerMsg = (function() {
         LinkRTC.encode = function encode(message, writer) {
             if (!writer)
                 writer = $Writer.create();
-            if (message.members != null && Object.hasOwnProperty.call(message, "members"))
-                writer.uint32(/* id 1, wireType 0 =*/8).uint32(message.members);
+            if (message.members != null && message.members.length) {
+                writer.uint32(/* id 1, wireType 2 =*/10).fork();
+                for (var i = 0; i < message.members.length; ++i)
+                    writer.int32(message.members[i]);
+                writer.ldelim();
+            }
             return writer;
         };
 
@@ -3448,7 +3117,14 @@ $root.SocketServerMsg = (function() {
                 var tag = reader.uint32();
                 switch (tag >>> 3) {
                 case 1:
-                    message.members = reader.uint32();
+                    if (!(message.members && message.members.length))
+                        message.members = [];
+                    if ((tag & 7) === 2) {
+                        var end2 = reader.uint32() + reader.pos;
+                        while (reader.pos < end2)
+                            message.members.push(reader.int32());
+                    } else
+                        message.members.push(reader.int32());
                     break;
                 default:
                     reader.skipType(tag & 7);
@@ -3485,9 +3161,13 @@ $root.SocketServerMsg = (function() {
         LinkRTC.verify = function verify(message) {
             if (typeof message !== "object" || message === null)
                 return "object expected";
-            if (message.members != null && message.hasOwnProperty("members"))
-                if (!$util.isInteger(message.members))
-                    return "members: integer expected";
+            if (message.members != null && message.hasOwnProperty("members")) {
+                if (!Array.isArray(message.members))
+                    return "members: array expected";
+                for (var i = 0; i < message.members.length; ++i)
+                    if (!$util.isInteger(message.members[i]))
+                        return "members: integer[] expected";
+            }
             return null;
         };
 
@@ -3503,8 +3183,13 @@ $root.SocketServerMsg = (function() {
             if (object instanceof $root.SocketServerMsg.LinkRTC)
                 return object;
             var message = new $root.SocketServerMsg.LinkRTC();
-            if (object.members != null)
-                message.members = object.members >>> 0;
+            if (object.members) {
+                if (!Array.isArray(object.members))
+                    throw TypeError(".SocketServerMsg.LinkRTC.members: array expected");
+                message.members = [];
+                for (var i = 0; i < object.members.length; ++i)
+                    message.members[i] = object.members[i] | 0;
+            }
             return message;
         };
 
@@ -3521,10 +3206,13 @@ $root.SocketServerMsg = (function() {
             if (!options)
                 options = {};
             var object = {};
-            if (options.defaults)
-                object.members = 0;
-            if (message.members != null && message.hasOwnProperty("members"))
-                object.members = message.members;
+            if (options.arrays || options.defaults)
+                object.members = [];
+            if (message.members && message.members.length) {
+                object.members = [];
+                for (var j = 0; j < message.members.length; ++j)
+                    object.members[j] = message.members[j];
+            }
             return object;
         };
 
@@ -3548,7 +3236,7 @@ $root.SocketServerMsg = (function() {
          * Properties of an UnLinkRTC.
          * @memberof SocketServerMsg
          * @interface IUnLinkRTC
-         * @property {number|null} [ID] UnLinkRTC ID
+         * @property {number|null} [Id] UnLinkRTC Id
          */
 
         /**
@@ -3567,12 +3255,12 @@ $root.SocketServerMsg = (function() {
         }
 
         /**
-         * UnLinkRTC ID.
-         * @member {number} ID
+         * UnLinkRTC Id.
+         * @member {number} Id
          * @memberof SocketServerMsg.UnLinkRTC
          * @instance
          */
-        UnLinkRTC.prototype.ID = 0;
+        UnLinkRTC.prototype.Id = 0;
 
         /**
          * Creates a new UnLinkRTC instance using the specified properties.
@@ -3598,8 +3286,8 @@ $root.SocketServerMsg = (function() {
         UnLinkRTC.encode = function encode(message, writer) {
             if (!writer)
                 writer = $Writer.create();
-            if (message.ID != null && Object.hasOwnProperty.call(message, "ID"))
-                writer.uint32(/* id 1, wireType 0 =*/8).uint32(message.ID);
+            if (message.Id != null && Object.hasOwnProperty.call(message, "Id"))
+                writer.uint32(/* id 1, wireType 0 =*/8).int32(message.Id);
             return writer;
         };
 
@@ -3635,7 +3323,7 @@ $root.SocketServerMsg = (function() {
                 var tag = reader.uint32();
                 switch (tag >>> 3) {
                 case 1:
-                    message.ID = reader.uint32();
+                    message.Id = reader.int32();
                     break;
                 default:
                     reader.skipType(tag & 7);
@@ -3672,9 +3360,9 @@ $root.SocketServerMsg = (function() {
         UnLinkRTC.verify = function verify(message) {
             if (typeof message !== "object" || message === null)
                 return "object expected";
-            if (message.ID != null && message.hasOwnProperty("ID"))
-                if (!$util.isInteger(message.ID))
-                    return "ID: integer expected";
+            if (message.Id != null && message.hasOwnProperty("Id"))
+                if (!$util.isInteger(message.Id))
+                    return "Id: integer expected";
             return null;
         };
 
@@ -3690,8 +3378,8 @@ $root.SocketServerMsg = (function() {
             if (object instanceof $root.SocketServerMsg.UnLinkRTC)
                 return object;
             var message = new $root.SocketServerMsg.UnLinkRTC();
-            if (object.ID != null)
-                message.ID = object.ID >>> 0;
+            if (object.Id != null)
+                message.Id = object.Id | 0;
             return message;
         };
 
@@ -3709,9 +3397,9 @@ $root.SocketServerMsg = (function() {
                 options = {};
             var object = {};
             if (options.defaults)
-                object.ID = 0;
-            if (message.ID != null && message.hasOwnProperty("ID"))
-                object.ID = message.ID;
+                object.Id = 0;
+            if (message.Id != null && message.hasOwnProperty("Id"))
+                object.Id = message.Id;
             return object;
         };
 
@@ -3736,13 +3424,7 @@ $root.SocketServerMsg = (function() {
          * @memberof SocketServerMsg
          * @interface IMsg
          * @property {SocketEnum.msgType|null} [type] Msg type
-         * @property {SocketServerMsg.IJoin|null} [join] Msg join
-         * @property {SocketServerMsg.IMove|null} [move] Msg move
-         * @property {SocketServerMsg.ILeave|null} [leave] Msg leave
-         * @property {SocketServerMsg.ILinkRTC|null} [linkRTC] Msg linkRTC
-         * @property {SocketServerMsg.IUnLinkRTC|null} [unLinkRTC] Msg unLinkRTC
-         * @property {SocketServerMsg.IConnectInit|null} [connectInit] Msg connectInit
-         * @property {SocketServerMsg.IRoomInit|null} [RoomInit] Msg RoomInit
+         * @property {Uint8Array|null} [data] Msg data
          */
 
         /**
@@ -3769,74 +3451,12 @@ $root.SocketServerMsg = (function() {
         Msg.prototype.type = 0;
 
         /**
-         * Msg join.
-         * @member {SocketServerMsg.IJoin|null|undefined} join
-         * @memberof SocketServerMsg.Msg
-         * @instance
-         */
-        Msg.prototype.join = null;
-
-        /**
-         * Msg move.
-         * @member {SocketServerMsg.IMove|null|undefined} move
-         * @memberof SocketServerMsg.Msg
-         * @instance
-         */
-        Msg.prototype.move = null;
-
-        /**
-         * Msg leave.
-         * @member {SocketServerMsg.ILeave|null|undefined} leave
-         * @memberof SocketServerMsg.Msg
-         * @instance
-         */
-        Msg.prototype.leave = null;
-
-        /**
-         * Msg linkRTC.
-         * @member {SocketServerMsg.ILinkRTC|null|undefined} linkRTC
-         * @memberof SocketServerMsg.Msg
-         * @instance
-         */
-        Msg.prototype.linkRTC = null;
-
-        /**
-         * Msg unLinkRTC.
-         * @member {SocketServerMsg.IUnLinkRTC|null|undefined} unLinkRTC
-         * @memberof SocketServerMsg.Msg
-         * @instance
-         */
-        Msg.prototype.unLinkRTC = null;
-
-        /**
-         * Msg connectInit.
-         * @member {SocketServerMsg.IConnectInit|null|undefined} connectInit
-         * @memberof SocketServerMsg.Msg
-         * @instance
-         */
-        Msg.prototype.connectInit = null;
-
-        /**
-         * Msg RoomInit.
-         * @member {SocketServerMsg.IRoomInit|null|undefined} RoomInit
-         * @memberof SocketServerMsg.Msg
-         * @instance
-         */
-        Msg.prototype.RoomInit = null;
-
-        // OneOf field names bound to virtual getters and setters
-        var $oneOfFields;
-
-        /**
          * Msg data.
-         * @member {"join"|"move"|"leave"|"linkRTC"|"unLinkRTC"|"connectInit"|"RoomInit"|undefined} data
+         * @member {Uint8Array} data
          * @memberof SocketServerMsg.Msg
          * @instance
          */
-        Object.defineProperty(Msg.prototype, "data", {
-            get: $util.oneOfGetter($oneOfFields = ["join", "move", "leave", "linkRTC", "unLinkRTC", "connectInit", "RoomInit"]),
-            set: $util.oneOfSetter($oneOfFields)
-        });
+        Msg.prototype.data = $util.newBuffer([]);
 
         /**
          * Creates a new Msg instance using the specified properties.
@@ -3864,20 +3484,8 @@ $root.SocketServerMsg = (function() {
                 writer = $Writer.create();
             if (message.type != null && Object.hasOwnProperty.call(message, "type"))
                 writer.uint32(/* id 1, wireType 0 =*/8).int32(message.type);
-            if (message.join != null && Object.hasOwnProperty.call(message, "join"))
-                $root.SocketServerMsg.Join.encode(message.join, writer.uint32(/* id 2, wireType 2 =*/18).fork()).ldelim();
-            if (message.move != null && Object.hasOwnProperty.call(message, "move"))
-                $root.SocketServerMsg.Move.encode(message.move, writer.uint32(/* id 3, wireType 2 =*/26).fork()).ldelim();
-            if (message.leave != null && Object.hasOwnProperty.call(message, "leave"))
-                $root.SocketServerMsg.Leave.encode(message.leave, writer.uint32(/* id 4, wireType 2 =*/34).fork()).ldelim();
-            if (message.linkRTC != null && Object.hasOwnProperty.call(message, "linkRTC"))
-                $root.SocketServerMsg.LinkRTC.encode(message.linkRTC, writer.uint32(/* id 5, wireType 2 =*/42).fork()).ldelim();
-            if (message.unLinkRTC != null && Object.hasOwnProperty.call(message, "unLinkRTC"))
-                $root.SocketServerMsg.UnLinkRTC.encode(message.unLinkRTC, writer.uint32(/* id 6, wireType 2 =*/50).fork()).ldelim();
-            if (message.connectInit != null && Object.hasOwnProperty.call(message, "connectInit"))
-                $root.SocketServerMsg.ConnectInit.encode(message.connectInit, writer.uint32(/* id 7, wireType 2 =*/58).fork()).ldelim();
-            if (message.RoomInit != null && Object.hasOwnProperty.call(message, "RoomInit"))
-                $root.SocketServerMsg.RoomInit.encode(message.RoomInit, writer.uint32(/* id 8, wireType 2 =*/66).fork()).ldelim();
+            if (message.data != null && Object.hasOwnProperty.call(message, "data"))
+                writer.uint32(/* id 2, wireType 2 =*/18).bytes(message.data);
             return writer;
         };
 
@@ -3916,25 +3524,7 @@ $root.SocketServerMsg = (function() {
                     message.type = reader.int32();
                     break;
                 case 2:
-                    message.join = $root.SocketServerMsg.Join.decode(reader, reader.uint32());
-                    break;
-                case 3:
-                    message.move = $root.SocketServerMsg.Move.decode(reader, reader.uint32());
-                    break;
-                case 4:
-                    message.leave = $root.SocketServerMsg.Leave.decode(reader, reader.uint32());
-                    break;
-                case 5:
-                    message.linkRTC = $root.SocketServerMsg.LinkRTC.decode(reader, reader.uint32());
-                    break;
-                case 6:
-                    message.unLinkRTC = $root.SocketServerMsg.UnLinkRTC.decode(reader, reader.uint32());
-                    break;
-                case 7:
-                    message.connectInit = $root.SocketServerMsg.ConnectInit.decode(reader, reader.uint32());
-                    break;
-                case 8:
-                    message.RoomInit = $root.SocketServerMsg.RoomInit.decode(reader, reader.uint32());
+                    message.data = reader.bytes();
                     break;
                 default:
                     reader.skipType(tag & 7);
@@ -3971,7 +3561,6 @@ $root.SocketServerMsg = (function() {
         Msg.verify = function verify(message) {
             if (typeof message !== "object" || message === null)
                 return "object expected";
-            var properties = {};
             if (message.type != null && message.hasOwnProperty("type"))
                 switch (message.type) {
                 default:
@@ -3987,74 +3576,9 @@ $root.SocketServerMsg = (function() {
                 case 3:
                     break;
                 }
-            if (message.join != null && message.hasOwnProperty("join")) {
-                properties.data = 1;
-                {
-                    var error = $root.SocketServerMsg.Join.verify(message.join);
-                    if (error)
-                        return "join." + error;
-                }
-            }
-            if (message.move != null && message.hasOwnProperty("move")) {
-                if (properties.data === 1)
-                    return "data: multiple values";
-                properties.data = 1;
-                {
-                    var error = $root.SocketServerMsg.Move.verify(message.move);
-                    if (error)
-                        return "move." + error;
-                }
-            }
-            if (message.leave != null && message.hasOwnProperty("leave")) {
-                if (properties.data === 1)
-                    return "data: multiple values";
-                properties.data = 1;
-                {
-                    var error = $root.SocketServerMsg.Leave.verify(message.leave);
-                    if (error)
-                        return "leave." + error;
-                }
-            }
-            if (message.linkRTC != null && message.hasOwnProperty("linkRTC")) {
-                if (properties.data === 1)
-                    return "data: multiple values";
-                properties.data = 1;
-                {
-                    var error = $root.SocketServerMsg.LinkRTC.verify(message.linkRTC);
-                    if (error)
-                        return "linkRTC." + error;
-                }
-            }
-            if (message.unLinkRTC != null && message.hasOwnProperty("unLinkRTC")) {
-                if (properties.data === 1)
-                    return "data: multiple values";
-                properties.data = 1;
-                {
-                    var error = $root.SocketServerMsg.UnLinkRTC.verify(message.unLinkRTC);
-                    if (error)
-                        return "unLinkRTC." + error;
-                }
-            }
-            if (message.connectInit != null && message.hasOwnProperty("connectInit")) {
-                if (properties.data === 1)
-                    return "data: multiple values";
-                properties.data = 1;
-                {
-                    var error = $root.SocketServerMsg.ConnectInit.verify(message.connectInit);
-                    if (error)
-                        return "connectInit." + error;
-                }
-            }
-            if (message.RoomInit != null && message.hasOwnProperty("RoomInit")) {
-                if (properties.data === 1)
-                    return "data: multiple values";
-                properties.data = 1;
-                {
-                    var error = $root.SocketServerMsg.RoomInit.verify(message.RoomInit);
-                    if (error)
-                        return "RoomInit." + error;
-                }
-            }
+            if (message.data != null && message.hasOwnProperty("data"))
+                if (!(message.data && typeof message.data.length === "number" || $util.isString(message.data)))
+                    return "data: buffer expected";
             return null;
         };
 
@@ -4108,41 +3632,11 @@ $root.SocketServerMsg = (function() {
                 message.type = 3;
                 break;
             }
-            if (object.join != null) {
-                if (typeof object.join !== "object")
-                    throw TypeError(".SocketServerMsg.Msg.join: object expected");
-                message.join = $root.SocketServerMsg.Join.fromObject(object.join);
-            }
-            if (object.move != null) {
-                if (typeof object.move !== "object")
-                    throw TypeError(".SocketServerMsg.Msg.move: object expected");
-                message.move = $root.SocketServerMsg.Move.fromObject(object.move);
-            }
-            if (object.leave != null) {
-                if (typeof object.leave !== "object")
-                    throw TypeError(".SocketServerMsg.Msg.leave: object expected");
-                message.leave = $root.SocketServerMsg.Leave.fromObject(object.leave);
-            }
-            if (object.linkRTC != null) {
-                if (typeof object.linkRTC !== "object")
-                    throw TypeError(".SocketServerMsg.Msg.linkRTC: object expected");
-                message.linkRTC = $root.SocketServerMsg.LinkRTC.fromObject(object.linkRTC);
-            }
-            if (object.unLinkRTC != null) {
-                if (typeof object.unLinkRTC !== "object")
-                    throw TypeError(".SocketServerMsg.Msg.unLinkRTC: object expected");
-                message.unLinkRTC = $root.SocketServerMsg.UnLinkRTC.fromObject(object.unLinkRTC);
-            }
-            if (object.connectInit != null) {
-                if (typeof object.connectInit !== "object")
-                    throw TypeError(".SocketServerMsg.Msg.connectInit: object expected");
-                message.connectInit = $root.SocketServerMsg.ConnectInit.fromObject(object.connectInit);
-            }
-            if (object.RoomInit != null) {
-                if (typeof object.RoomInit !== "object")
-                    throw TypeError(".SocketServerMsg.Msg.RoomInit: object expected");
-                message.RoomInit = $root.SocketServerMsg.RoomInit.fromObject(object.RoomInit);
-            }
+            if (object.data != null)
+                if (typeof object.data === "string")
+                    $util.base64.decode(object.data, message.data = $util.newBuffer($util.base64.length(object.data)), 0);
+                else if (object.data.length)
+                    message.data = object.data;
             return message;
         };
 
@@ -4159,45 +3653,20 @@ $root.SocketServerMsg = (function() {
             if (!options)
                 options = {};
             var object = {};
-            if (options.defaults)
+            if (options.defaults) {
                 object.type = options.enums === String ? "ClientInit" : 0;
+                if (options.bytes === String)
+                    object.data = "";
+                else {
+                    object.data = [];
+                    if (options.bytes !== Array)
+                        object.data = $util.newBuffer(object.data);
+                }
+            }
             if (message.type != null && message.hasOwnProperty("type"))
                 object.type = options.enums === String ? $root.SocketEnum.msgType[message.type] : message.type;
-            if (message.join != null && message.hasOwnProperty("join")) {
-                object.join = $root.SocketServerMsg.Join.toObject(message.join, options);
-                if (options.oneofs)
-                    object.data = "join";
-            }
-            if (message.move != null && message.hasOwnProperty("move")) {
-                object.move = $root.SocketServerMsg.Move.toObject(message.move, options);
-                if (options.oneofs)
-                    object.data = "move";
-            }
-            if (message.leave != null && message.hasOwnProperty("leave")) {
-                object.leave = $root.SocketServerMsg.Leave.toObject(message.leave, options);
-                if (options.oneofs)
-                    object.data = "leave";
-            }
-            if (message.linkRTC != null && message.hasOwnProperty("linkRTC")) {
-                object.linkRTC = $root.SocketServerMsg.LinkRTC.toObject(message.linkRTC, options);
-                if (options.oneofs)
-                    object.data = "linkRTC";
-            }
-            if (message.unLinkRTC != null && message.hasOwnProperty("unLinkRTC")) {
-                object.unLinkRTC = $root.SocketServerMsg.UnLinkRTC.toObject(message.unLinkRTC, options);
-                if (options.oneofs)
-                    object.data = "unLinkRTC";
-            }
-            if (message.connectInit != null && message.hasOwnProperty("connectInit")) {
-                object.connectInit = $root.SocketServerMsg.ConnectInit.toObject(message.connectInit, options);
-                if (options.oneofs)
-                    object.data = "connectInit";
-            }
-            if (message.RoomInit != null && message.hasOwnProperty("RoomInit")) {
-                object.RoomInit = $root.SocketServerMsg.RoomInit.toObject(message.RoomInit, options);
-                if (options.oneofs)
-                    object.data = "RoomInit";
-            }
+            if (message.data != null && message.hasOwnProperty("data"))
+                object.data = options.bytes === String ? $util.base64.encode(message.data, 0, message.data.length) : options.bytes === Array ? Array.prototype.slice.call(message.data) : message.data;
             return object;
         };
 

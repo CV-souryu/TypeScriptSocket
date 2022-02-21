@@ -26,8 +26,8 @@ export namespace SocketEnum {
     /** Properties of a User. */
     interface IUser {
 
-        /** User ID */
-        ID?: (number|null);
+        /** User Id */
+        Id?: (number|null);
 
         /** User x */
         x?: (number|null);
@@ -41,8 +41,8 @@ export namespace SocketEnum {
         /** User nickname */
         nickname?: (string|null);
 
-        /** User strUserID */
-        strUserID?: (string|null);
+        /** User strUserId */
+        strUserId?: (string|null);
 
         /** User personAppearance */
         personAppearance?: (number|null);
@@ -57,8 +57,8 @@ export namespace SocketEnum {
          */
         constructor(properties?: SocketEnum.IUser);
 
-        /** User ID. */
-        public ID: number;
+        /** User Id. */
+        public Id: number;
 
         /** User x. */
         public x: number;
@@ -72,8 +72,8 @@ export namespace SocketEnum {
         /** User nickname. */
         public nickname: string;
 
-        /** User strUserID. */
-        public strUserID: string;
+        /** User strUserId. */
+        public strUserId: string;
 
         /** User personAppearance. */
         public personAppearance: number;
@@ -159,8 +159,8 @@ export namespace SocketClientMsg {
         /** Join nickname */
         nickname?: (string|null);
 
-        /** Join strUserID */
-        strUserID?: (string|null);
+        /** Join strUserId */
+        strUserId?: (string|null);
 
         /** Join personAppearance */
         personAppearance?: (number|null);
@@ -187,8 +187,8 @@ export namespace SocketClientMsg {
         /** Join nickname. */
         public nickname: string;
 
-        /** Join strUserID. */
-        public strUserID: string;
+        /** Join strUserId. */
+        public strUserId: string;
 
         /** Join personAppearance. */
         public personAppearance: number;
@@ -462,8 +462,8 @@ export namespace SocketClientMsg {
     /** Properties of a LinkRTC. */
     interface ILinkRTC {
 
-        /** LinkRTC ID */
-        ID?: (number|null);
+        /** LinkRTC Id */
+        Id?: (number|null);
     }
 
     /** Represents a LinkRTC. */
@@ -475,8 +475,8 @@ export namespace SocketClientMsg {
          */
         constructor(properties?: SocketClientMsg.ILinkRTC);
 
-        /** LinkRTC ID. */
-        public ID: number;
+        /** LinkRTC Id. */
+        public Id: number;
 
         /**
          * Creates a new LinkRTC instance using the specified properties.
@@ -729,23 +729,8 @@ export namespace SocketClientMsg {
         /** Msg type */
         type?: (SocketEnum.msgType|null);
 
-        /** Msg join */
-        join?: (SocketClientMsg.IJoin|null);
-
-        /** Msg move */
-        move?: (SocketClientMsg.IMove|null);
-
-        /** Msg leage */
-        leage?: (SocketClientMsg.ILeave|null);
-
-        /** Msg linkRTC */
-        linkRTC?: (SocketClientMsg.ILinkRTC|null);
-
-        /** Msg unLinkRTC */
-        unLinkRTC?: (SocketClientMsg.IUnLinkRTC|null);
-
-        /** Msg linkRTCPrivate */
-        linkRTCPrivate?: (SocketClientMsg.ILinkRTCPrivate|null);
+        /** Msg data */
+        data?: (Uint8Array|null);
     }
 
     /** Represents a Msg. */
@@ -760,26 +745,8 @@ export namespace SocketClientMsg {
         /** Msg type. */
         public type: SocketEnum.msgType;
 
-        /** Msg join. */
-        public join?: (SocketClientMsg.IJoin|null);
-
-        /** Msg move. */
-        public move?: (SocketClientMsg.IMove|null);
-
-        /** Msg leage. */
-        public leage?: (SocketClientMsg.ILeave|null);
-
-        /** Msg linkRTC. */
-        public linkRTC?: (SocketClientMsg.ILinkRTC|null);
-
-        /** Msg unLinkRTC. */
-        public unLinkRTC?: (SocketClientMsg.IUnLinkRTC|null);
-
-        /** Msg linkRTCPrivate. */
-        public linkRTCPrivate?: (SocketClientMsg.ILinkRTCPrivate|null);
-
         /** Msg data. */
-        public data?: ("join"|"move"|"leage"|"linkRTC"|"unLinkRTC"|"linkRTCPrivate");
+        public data: Uint8Array;
 
         /**
          * Creates a new Msg instance using the specified properties.
@@ -859,8 +826,8 @@ export namespace SocketServerMsg {
     /** Properties of a ConnectInit. */
     interface IConnectInit {
 
-        /** ConnectInit ID */
-        ID?: (number|null);
+        /** ConnectInit Id */
+        Id?: (number|null);
     }
 
     /** Represents a ConnectInit. */
@@ -872,8 +839,8 @@ export namespace SocketServerMsg {
          */
         constructor(properties?: SocketServerMsg.IConnectInit);
 
-        /** ConnectInit ID. */
-        public ID: number;
+        /** ConnectInit Id. */
+        public Id: number;
 
         /**
          * Creates a new ConnectInit instance using the specified properties.
@@ -1039,26 +1006,8 @@ export namespace SocketServerMsg {
     /** Properties of a Join. */
     interface IJoin {
 
-        /** Join ID */
-        ID?: (number|null);
-
-        /** Join x */
-        x?: (number|null);
-
-        /** Join y */
-        y?: (number|null);
-
-        /** Join direction */
-        direction?: (SocketEnum.UserDirection|null);
-
-        /** Join nickname */
-        nickname?: (string|null);
-
-        /** Join strUserID */
-        strUserID?: (string|null);
-
-        /** Join personAppearance */
-        personAppearance?: (number|null);
+        /** Join member */
+        member?: (SocketEnum.IUser|null);
     }
 
     /** Represents a Join. */
@@ -1070,26 +1019,8 @@ export namespace SocketServerMsg {
          */
         constructor(properties?: SocketServerMsg.IJoin);
 
-        /** Join ID. */
-        public ID: number;
-
-        /** Join x. */
-        public x: number;
-
-        /** Join y. */
-        public y: number;
-
-        /** Join direction. */
-        public direction: SocketEnum.UserDirection;
-
-        /** Join nickname. */
-        public nickname: string;
-
-        /** Join strUserID. */
-        public strUserID: string;
-
-        /** Join personAppearance. */
-        public personAppearance: number;
+        /** Join member. */
+        public member?: (SocketEnum.IUser|null);
 
         /**
          * Creates a new Join instance using the specified properties.
@@ -1165,8 +1096,8 @@ export namespace SocketServerMsg {
     /** Properties of a Move. */
     interface IMove {
 
-        /** Move ID */
-        ID?: (number|null);
+        /** Move Id */
+        Id?: (number|null);
 
         /** Move x */
         x?: (number|null);
@@ -1187,8 +1118,8 @@ export namespace SocketServerMsg {
          */
         constructor(properties?: SocketServerMsg.IMove);
 
-        /** Move ID. */
-        public ID: number;
+        /** Move Id. */
+        public Id: number;
 
         /** Move x. */
         public x: number;
@@ -1273,8 +1204,8 @@ export namespace SocketServerMsg {
     /** Properties of a Leave. */
     interface ILeave {
 
-        /** Leave ID */
-        ID?: (number|null);
+        /** Leave Id */
+        Id?: (number|null);
     }
 
     /** Represents a Leave. */
@@ -1286,8 +1217,8 @@ export namespace SocketServerMsg {
          */
         constructor(properties?: SocketServerMsg.ILeave);
 
-        /** Leave ID. */
-        public ID: number;
+        /** Leave Id. */
+        public Id: number;
 
         /**
          * Creates a new Leave instance using the specified properties.
@@ -1364,7 +1295,7 @@ export namespace SocketServerMsg {
     interface ILinkRTC {
 
         /** LinkRTC members */
-        members?: (number|null);
+        members?: (number[]|null);
     }
 
     /** Represents a LinkRTC. */
@@ -1377,7 +1308,7 @@ export namespace SocketServerMsg {
         constructor(properties?: SocketServerMsg.ILinkRTC);
 
         /** LinkRTC members. */
-        public members: number;
+        public members: number[];
 
         /**
          * Creates a new LinkRTC instance using the specified properties.
@@ -1453,8 +1384,8 @@ export namespace SocketServerMsg {
     /** Properties of an UnLinkRTC. */
     interface IUnLinkRTC {
 
-        /** UnLinkRTC ID */
-        ID?: (number|null);
+        /** UnLinkRTC Id */
+        Id?: (number|null);
     }
 
     /** Represents an UnLinkRTC. */
@@ -1466,8 +1397,8 @@ export namespace SocketServerMsg {
          */
         constructor(properties?: SocketServerMsg.IUnLinkRTC);
 
-        /** UnLinkRTC ID. */
-        public ID: number;
+        /** UnLinkRTC Id. */
+        public Id: number;
 
         /**
          * Creates a new UnLinkRTC instance using the specified properties.
@@ -1546,26 +1477,8 @@ export namespace SocketServerMsg {
         /** Msg type */
         type?: (SocketEnum.msgType|null);
 
-        /** Msg join */
-        join?: (SocketServerMsg.IJoin|null);
-
-        /** Msg move */
-        move?: (SocketServerMsg.IMove|null);
-
-        /** Msg leave */
-        leave?: (SocketServerMsg.ILeave|null);
-
-        /** Msg linkRTC */
-        linkRTC?: (SocketServerMsg.ILinkRTC|null);
-
-        /** Msg unLinkRTC */
-        unLinkRTC?: (SocketServerMsg.IUnLinkRTC|null);
-
-        /** Msg connectInit */
-        connectInit?: (SocketServerMsg.IConnectInit|null);
-
-        /** Msg RoomInit */
-        RoomInit?: (SocketServerMsg.IRoomInit|null);
+        /** Msg data */
+        data?: (Uint8Array|null);
     }
 
     /** Represents a Msg. */
@@ -1580,29 +1493,8 @@ export namespace SocketServerMsg {
         /** Msg type. */
         public type: SocketEnum.msgType;
 
-        /** Msg join. */
-        public join?: (SocketServerMsg.IJoin|null);
-
-        /** Msg move. */
-        public move?: (SocketServerMsg.IMove|null);
-
-        /** Msg leave. */
-        public leave?: (SocketServerMsg.ILeave|null);
-
-        /** Msg linkRTC. */
-        public linkRTC?: (SocketServerMsg.ILinkRTC|null);
-
-        /** Msg unLinkRTC. */
-        public unLinkRTC?: (SocketServerMsg.IUnLinkRTC|null);
-
-        /** Msg connectInit. */
-        public connectInit?: (SocketServerMsg.IConnectInit|null);
-
-        /** Msg RoomInit. */
-        public RoomInit?: (SocketServerMsg.IRoomInit|null);
-
         /** Msg data. */
-        public data?: ("join"|"move"|"leave"|"linkRTC"|"unLinkRTC"|"connectInit"|"RoomInit");
+        public data: Uint8Array;
 
         /**
          * Creates a new Msg instance using the specified properties.

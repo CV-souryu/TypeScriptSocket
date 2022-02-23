@@ -1,46 +1,18 @@
 /*
  * @Date: 2022-02-06 09:15:00
  * @LastEditors: YueAo7
- * @LastEditTime: 2022-02-21 11:30:53
- * @FilePath: \SocketV2\src\Class\People.ts
+ * @LastEditTime: 2022-02-23 11:42:07
+ * @FilePath: \SocketV2\src\Class\ClientControl.ts
  */
 import { Socket } from "net";
 import { send } from "../Common/send";
 import { logger } from "../Init";
 import { SocketClientMsg, SocketEnum, SocketServerMsg } from "../Proto";
-// import { User, ClientMSG, ServerMSG, msgType } from "./Msg";
 import { encodeMSG } from "../Common/encode"
-import mutexify = require("mutexify");
 import { RoomControl } from "./Room";
 import { InputBufferTeam, OutputBufferTeam } from "./BufferTeam";
-// type PeopleInfo = User.UserInfo & User.UserPosition
 const defaultPeopleInfo = { strUserId: "", direction: 0, nickname: "unknow", x: 0, y: 0, personAppearance: 1 }
 
-// class MSGNode {
-
-//     private next: MSGNode | undefined
-//     constructor(private msg?: Uint8Array, private prev?: MSGNode) {
-
-//     }
-//     getMsg(): Uint8Array | undefined {
-//         if (this.prev) {
-//             this.prev.next = this.next
-//             return this.msg
-//         } else {
-//             if (this.next) {
-//                 return this.next.getMsg()
-//             }
-
-//         }
-//     }
-//     push(msg: Uint8Array) {
-//         if (this.next) {
-//             this.next.push(msg)
-//         } else {
-//             this.next = new MSGNode(msg, this)
-//         }
-//     }
-// }
 const roomControl = RoomControl.Control
 
 export class ClientControl {
@@ -86,8 +58,10 @@ export class ClientControl {
         if (ClientControl.TaskLock) return;
         ClientControl.TaskLock = true
         ClientControl.PeopleControl.forEach((p) => {
-            p.sendMSG()
             p.loadMSG()
+        })
+        ClientControl.PeopleControl.forEach((p)=>{
+            p.sendMSG()
         })
         ClientControl.TaskLock = false
     }

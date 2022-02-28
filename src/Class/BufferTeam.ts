@@ -1,7 +1,7 @@
 /*
  * @Date: 2022-02-17 14:38:28
  * @LastEditors: YueAo7
- * @LastEditTime: 2022-02-22 15:55:47
+ * @LastEditTime: 2022-02-25 11:42:28
  * @FilePath: \SocketV2\src\Class\BufferTeam.ts
  */
 import { ClientControl } from "./ClientControl";
@@ -56,7 +56,3 @@ export class OutputBufferTeam {
 
     }
 }
-const b  =new HTMLDivElement()
-b.addEventListener("change",async (e)=>{
-    e.target
-})

@@ -1,7 +1,7 @@
 /*
  * @Date: 2022-01-16 09:18:52
  * @LastEditors: YueAo7
- * @LastEditTime: 2022-02-22 12:25:14
+ * @LastEditTime: 2022-02-27 12:10:07
  * @FilePath: \SocketV2\src\index.ts
  */
 import * as net from "net"
@@ -10,7 +10,19 @@ import "./Init"
 import { UserID } from "./Common/user"
 import { RoomControl } from "./Class/Room"
 import { ClientControl } from "./Class/ClientControl"
+// import { getLogger } from "log4js"
 
+const {argv} = process
+let port = 8888
+argv.map((v)=>{
+    const res = v.match(/P([0-9]+)/)
+    if(res){
+        port = eval(res[1])         
+    }    
+})
+// export const logger = getLogger("Socket"+port);
+// logger.level = "debug";
+// logger.debug("ServerOn");
 const roomControl = RoomControl.Control
 const serve = net.createServer();
 const UserIDM = UserID.instans
@@ -40,7 +52,14 @@ serve.on("connection", (client) => {
     })
 })
 serve.listen({
-    port:8888
-},()=>{
-    dgram.createSocket("udp4").send("AB",8887,"192.168.88.212")
+    port
+}, () => {
+
+    //dgram.createSocket("udp4").send("AB", 8887, "192.168.88.212")
+})
+dgram.createSocket("udp4").bind(port-1,"0.0.0.0",()=>{
+    // logger.info("UDP ON",port-1,)
+
+}).on("message",(e)=>{
+    // logger.info("UDP",e.toString(),port-1,)
 })
